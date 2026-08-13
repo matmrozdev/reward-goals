@@ -1,0 +1,10 @@
+{
+  "name": "reward-goals",
+  "private": true,
+  "scripts": {
+    "mobile": "pnpm --filter mobile",
+    "api": "pnpm --filter api",
+    "dev:mobile": "pnpm --filter mobile start",
+    "dev:api": "pnpm --filter api start:dev"
+  }
+}
