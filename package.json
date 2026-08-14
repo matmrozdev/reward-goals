@@ -6,6 +6,13 @@
     "api": "pnpm --filter api",
     "dev:mobile": "pnpm --filter mobile start",
     "dev:api": "pnpm --filter api start:dev",
-    "typecheck": "pnpm --recursive --if-present typecheck"
+    "typecheck": "pnpm --recursive --if-present typecheck",
+    "prepare": "husky",
+    "validate:branch": "node scripts/git/validate-branch-name.mjs"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
+    "husky": "^9.1.7"
   }
 }
