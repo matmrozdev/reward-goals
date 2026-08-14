@@ -11,6 +11,10 @@ repository. Treat its requirements as mandatory.
 4. Also select and read mobile rules for work affecting `apps/mobile`.
 5. When the task matches a cataloged skill, read its complete `SKILL.md` before
    taking task actions.
+6. For feature, dependency, architecture, authentication, workflow, roadmap, or
+   implementation-status changes, read
+   `.agents/rules/shared/documentation/wiki-maintenance.md` and complete its
+   Wiki-impact check before finishing the task.
 
 Load only the rules relevant to the task, except when a rule explicitly says it
 is mandatory for an operation.
