@@ -1,9 +1,9 @@
 ---
 name: Task
 about: Create an issue-backed implementation task
-title: ""
-labels: ""
-assignees: ""
+title: ''
+labels: ''
+assignees: ''
 ---
 
 <!-- Use: <type>(<scope>): <imperative description> -->

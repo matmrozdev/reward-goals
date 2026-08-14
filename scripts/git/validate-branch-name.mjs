@@ -10,7 +10,8 @@ function currentBranch() {
   });
 
   if (result.status !== 0 || (!result.stdout && result.error)) {
-    const detail = result.stderr?.trim() || result.error?.message || 'unknown error';
+    const detail =
+      result.stderr?.trim() || result.error?.message || 'unknown error';
     throw new Error(`Unable to read the current Git branch: ${detail}`);
   }
 

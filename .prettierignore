@@ -1,0 +1,8 @@
+node_modules
+.expo
+coverage
+dist
+build
+pnpm-lock.yaml
+apps/**/assets
+**/expo-env.d.ts
