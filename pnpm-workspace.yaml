@@ -1,5 +1,16 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+  - 'apps/*'
+  - 'packages/*'
+minimumReleaseAge: 4320
 allowBuilds:
   unrs-resolver: false
+overrides:
+  uuid@<11.1.1: ^11.1.1
+minimumReleaseAgeExclude:
+  - uuid@11.1.1
+audit:
+  level: low
+  ignore:
+    # Expo/Metro tooling depends on image-size, which has no patched release yet.
+    - GHSA-w3rx-r6r6-pgpr
+    - GHSA-5p2g-fcmc-qvqq

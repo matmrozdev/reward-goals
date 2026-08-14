@@ -9,16 +9,19 @@ The project is built as a public portfolio to showcase modern React Native and N
 ## Tech Stack
 
 **Mobile**
+
 - React Native
 - Expo
 - TypeScript
 
 **Backend**
+
 - NestJS
 - Prisma
 - PostgreSQL
 
 **Infrastructure**
+
 - Docker
 - GitHub Actions
 
@@ -59,6 +62,37 @@ docker compose up -d
 pnpm --filter api dev
 pnpm --filter mobile start
 ```
+
+---
+
+## Quality Checks
+
+Run the complete non-mutating validation suite before opening a pull request:
+
+```bash
+pnpm validate
+```
+
+The command checks formatting with Prettier, lints the monorepo with ESLint,
+and audits all workspace dependencies for known vulnerabilities. Husky runs the
+same validation suite together with branch-name validation before each push.
+GitHub Actions also runs the same suite for pull requests targeting `main`,
+using the committed lockfile to install the exact dependency versions.
+Audit exceptions must identify an exact advisory, have no available patched
+release, and be removed when an upstream fix becomes available.
+
+Individual commands are also available:
+
+```bash
+pnpm lint
+pnpm lint:fix
+pnpm format
+pnpm format:check
+pnpm audit:dependencies
+```
+
+pnpm only resolves package versions that have been published for at least three
+days, reducing exposure to newly published supply-chain attacks.
 
 ---
 
