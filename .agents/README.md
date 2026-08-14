@@ -19,6 +19,7 @@ in the root `AGENTS.md`.
 | Shared | Workflow | [GitHub issues](rules/shared/workflow/github-issues.md) | Find or create the issue that defines implementation scope and acceptance criteria. |
 | Shared | Workflow | [Branch naming](rules/shared/workflow/branch-naming.md) | Create issue-backed branches using the repository naming pattern. |
 | Shared | Workflow | [Commit convention](rules/shared/workflow/commit-convention.md) | Format commits consistently and validate them with commitlint. |
+| Shared | Documentation | [Wiki maintenance](rules/shared/documentation/wiki-maintenance.md) | Check Wiki impact and update public product or technical documentation when meaningful repository changes require it. |
 | Shared | Authoring | [Rule files](rules/shared/authoring/rule-files.md) | Add, organize, and document canonical project rules. |
 | Shared | Authoring | [Skill files](rules/shared/authoring/skill-files.md) | Add and maintain repository-local skills. |
 | Mobile | Framework | [Expo](rules/mobile/framework/expo.md) | Use the exact Expo documentation matching the installed SDK. |
