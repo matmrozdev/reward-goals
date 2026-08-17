@@ -55,13 +55,44 @@ Development is tracked using GitHub Issues, Milestones and Projects.
 
 ## Running Locally
 
+Install dependencies, then create each application's local environment file
+from its committed example:
+
 ```bash
 pnpm install
-docker compose up -d
-
-pnpm --filter api dev
-pnpm --filter mobile start
+cp apps/api/.env.example apps/api/.env
+cp apps/mobile/.env.example apps/mobile/.env
 ```
+
+The API environment requires:
+
+| Variable       | Purpose                                                  |
+| -------------- | -------------------------------------------------------- |
+| `NODE_ENV`     | Runtime mode: `development`, `test`, or `production`     |
+| `HOST`         | Network interface on which the API listens               |
+| `PORT`         | TCP port on which the API listens                        |
+| `DATABASE_URL` | PostgreSQL connection URL, including the target database |
+
+The mobile app requires `EXPO_PUBLIC_API_URL`, the base URL it will use for API
+requests. Expo embeds `EXPO_PUBLIC_` values in the client bundle, so never put
+secrets in them.
+
+The committed defaults assume PostgreSQL and the mobile client can reach the
+development machine at `localhost`. When using an Android emulator, set the
+mobile URL host to `10.0.2.2`; on a physical device, use the development
+machine's LAN address. Keep the API `HOST` set to `0.0.0.0` for device access.
+
+After adjusting the copied values for the local environment, start PostgreSQL
+and run both applications in separate terminals:
+
+```bash
+pnpm dev:api
+pnpm dev:mobile
+```
+
+The API validates its environment before starting and reports every missing or
+invalid required variable in one error. Local `.env` files are ignored by Git;
+only `.env.example` files should be committed.
 
 ---
 
