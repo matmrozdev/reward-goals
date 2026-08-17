@@ -3,6 +3,8 @@ packages:
   - 'packages/*'
 minimumReleaseAge: 4320
 allowBuilds:
+  '@prisma/engines': true
+  prisma: true
   unrs-resolver: false
 overrides:
   uuid@<11.1.1: ^11.1.1
