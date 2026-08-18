@@ -94,6 +94,43 @@ The API validates its environment before starting and reports every missing or
 invalid required variable in one error. Local `.env` files are ignored by Git;
 only `.env.example` files should be committed.
 
+### Database workflow
+
+The API uses PostgreSQL through Prisma ORM. Docker-based local infrastructure is
+tracked separately, so PostgreSQL can currently run natively or through any
+reachable development instance. Set `DATABASE_URL` in `apps/api/.env` before
+running commands that connect to the database.
+
+Generate the type-safe Prisma Client after changing the schema:
+
+```bash
+pnpm db:generate
+```
+
+Create and apply a development migration after adding or changing models:
+
+```bash
+pnpm db:migrate --name describe_the_change
+```
+
+Inspect migration status or apply committed migrations in a deployment:
+
+```bash
+pnpm db:status
+pnpm db:migrate:deploy
+```
+
+Reset the development database and reapply all migrations:
+
+```bash
+pnpm db:reset
+```
+
+`db:reset` deletes all data in the configured database. Never run it against a
+shared or production database. Prisma Client is generated during dependency
+installation and before API builds; generated files are intentionally ignored
+by Git.
+
 ---
 
 ## Quality Checks
