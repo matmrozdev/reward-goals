@@ -1,56 +1,63 @@
-# Welcome to your Expo app 👋
+# Reward Goals Mobile
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+The Reward Goals mobile client is a React Native application built with Expo and
+Expo Router. It owns presentation, user interaction, and communication with the
+Reward Goals API.
 
-## Get started
+## Prerequisites
 
-1. Install dependencies
+- Node.js
+- pnpm
+- Expo Go, an Android emulator, an iOS simulator, or a web browser
 
-   ```bash
-   npm install
-   ```
+Run the commands below from the repository root.
 
-2. Start the app
+## Setup
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Install dependencies and create the local mobile environment file:
 
 ```bash
-npm run reset-project
+pnpm install
+cp apps/mobile/.env.example apps/mobile/.env
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Start the Expo development server:
 
-### Other setup steps
+```bash
+pnpm dev:mobile
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+Use the terminal shortcuts shown by Expo to open the app on a connected device,
+emulator, simulator, or the web.
 
-## Learn more
+## Environment
 
-To learn more about developing your project with Expo, look at the following resources:
+| Variable              | Purpose                        | Default                 |
+| --------------------- | ------------------------------ | ----------------------- |
+| `EXPO_PUBLIC_API_URL` | Base URL used for API requests | `http://localhost:3000` |
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Expo embeds `EXPO_PUBLIC_` values in the client bundle. Never store secrets in
+these variables.
 
-## Join the community
+The correct API host depends on where the app runs:
 
-Join our community of developers creating universal apps.
+- iOS simulator or web: `localhost`
+- Android emulator: `10.0.2.2`
+- Physical device: the development machine's LAN address
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+The API must listen on `0.0.0.0` when accessed from an emulator or physical
+device.
+
+## Commands
+
+| Command                 | Purpose                           |
+| ----------------------- | --------------------------------- |
+| `pnpm dev:mobile`       | Start the Expo development server |
+| `pnpm mobile android`   | Start Expo and open Android       |
+| `pnpm mobile ios`       | Start Expo and open iOS           |
+| `pnpm mobile web`       | Start Expo for the web            |
+| `pnpm mobile typecheck` | Type-check the mobile application |
+| `pnpm mobile lint`      | Lint the mobile application       |
+| `pnpm mobile lint:fix`  | Fix lint issues where possible    |
+
+Run `pnpm validate` from the repository root before opening a pull request.
