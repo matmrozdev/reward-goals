@@ -11,6 +11,7 @@
     "db:migrate:deploy": "pnpm --filter api db:migrate:deploy",
     "db:reset": "pnpm --filter api db:reset",
     "db:status": "pnpm --filter api db:status",
+    "test:e2e:api": "pnpm --filter api test:e2e",
     "typecheck": "pnpm --recursive --if-present typecheck",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

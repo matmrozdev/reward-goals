@@ -7,9 +7,19 @@ export interface ApiEnvironment {
   host: string;
   port: number;
   databaseUrl: string;
+  accessTokenSecret: string;
+  accessTokenTtlSeconds: number;
+  refreshTokenSecret: string;
+  refreshTokenTtlSeconds: number;
 }
 
 type Environment = Record<string, string | undefined>;
+
+const minimumSigningSecretLength = 32;
+const exampleSigningSecrets = new Set([
+  'replace-with-a-long-random-access-token-secret',
+  'replace-with-a-different-long-random-refresh-token-secret',
+]);
 
 export function loadEnvironment(): ApiEnvironment {
   try {
@@ -29,6 +39,26 @@ export function validateEnvironment(environment: Environment): ApiEnvironment {
   const host = requiredValue(environment, 'HOST', errors);
   const portValue = requiredValue(environment, 'PORT', errors);
   const databaseUrl = requiredValue(environment, 'DATABASE_URL', errors);
+  const accessTokenSecret = requiredValue(
+    environment,
+    'ACCESS_TOKEN_SECRET',
+    errors,
+  );
+  const accessTokenTtlValue = requiredValue(
+    environment,
+    'ACCESS_TOKEN_TTL_SECONDS',
+    errors,
+  );
+  const refreshTokenSecret = requiredValue(
+    environment,
+    'REFRESH_TOKEN_SECRET',
+    errors,
+  );
+  const refreshTokenTtlValue = requiredValue(
+    environment,
+    'REFRESH_TOKEN_TTL_SECONDS',
+    errors,
+  );
 
   if (nodeEnv && !nodeEnvironments.includes(nodeEnv as NodeEnvironment)) {
     errors.push(`NODE_ENV must be one of: ${nodeEnvironments.join(', ')}`);
@@ -43,6 +73,28 @@ export function validateEnvironment(environment: Environment): ApiEnvironment {
     errors.push('DATABASE_URL must be a valid PostgreSQL connection URL');
   }
 
+  const accessTokenTtlSeconds = positiveInteger(
+    accessTokenTtlValue,
+    'ACCESS_TOKEN_TTL_SECONDS',
+    errors,
+  );
+  const refreshTokenTtlSeconds = positiveInteger(
+    refreshTokenTtlValue,
+    'REFRESH_TOKEN_TTL_SECONDS',
+    errors,
+  );
+
+  validateSigningSecret(accessTokenSecret, 'ACCESS_TOKEN_SECRET', errors);
+  validateSigningSecret(refreshTokenSecret, 'REFRESH_TOKEN_SECRET', errors);
+
+  if (
+    accessTokenSecret &&
+    refreshTokenSecret &&
+    accessTokenSecret === refreshTokenSecret
+  ) {
+    errors.push('ACCESS_TOKEN_SECRET and REFRESH_TOKEN_SECRET must differ');
+  }
+
   if (errors.length > 0) {
     throw new Error(
       `Invalid environment configuration:\n- ${errors.join('\n- ')}`,
@@ -54,7 +106,45 @@ export function validateEnvironment(environment: Environment): ApiEnvironment {
     host,
     port,
     databaseUrl,
+    accessTokenSecret,
+    accessTokenTtlSeconds,
+    refreshTokenSecret,
+    refreshTokenTtlSeconds,
   };
+}
+
+function validateSigningSecret(
+  value: string,
+  name: string,
+  errors: string[],
+): void {
+  if (!value) {
+    return;
+  }
+
+  if (value.length < minimumSigningSecretLength) {
+    errors.push(
+      `${name} must contain at least ${minimumSigningSecretLength} characters`,
+    );
+  }
+
+  if (exampleSigningSecrets.has(value)) {
+    errors.push(`${name} must replace the committed example placeholder`);
+  }
+}
+
+function positiveInteger(
+  value: string,
+  name: string,
+  errors: string[],
+): number {
+  const parsed = Number(value);
+
+  if (value && (!Number.isSafeInteger(parsed) || parsed < 1)) {
+    errors.push(`${name} must be a positive integer`);
+  }
+
+  return parsed;
 }
 
 function requiredValue(
