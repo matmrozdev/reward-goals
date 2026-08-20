@@ -40,10 +40,16 @@ export default defineConfig([
     ],
     rules: {
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
-      'import/no-relative-parent-imports': 'error',
       'no-restricted-imports': [
         'error',
         {
+          patterns: [
+            {
+              group: ['../**'],
+              message:
+                'Use the @/ alias when importing across ownership boundaries.',
+            },
+          ],
           paths: [
             {
               name: 'react',
