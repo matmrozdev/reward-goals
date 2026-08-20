@@ -1,4 +1,5 @@
 import { resolve } from 'node:path';
+import type { PrismaService } from '../src/prisma/prisma.service';
 
 export function prepareTestEnvironment(): void {
   try {
@@ -51,4 +52,9 @@ export function assertSafeTestDatabase(): void {
       `Refusing to use non-test database "${databaseName}" for authentication E2E tests`,
     );
   }
+}
+
+export async function clearTestDatabase(prisma: PrismaService): Promise<void> {
+  assertSafeTestDatabase();
+  await prisma.user.deleteMany();
 }
