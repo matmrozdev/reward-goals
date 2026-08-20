@@ -4,6 +4,7 @@ packages:
 minimumReleaseAge: 4320
 allowBuilds:
   '@prisma/engines': true
+  '@scarf/scarf': false
   prisma: true
   unrs-resolver: false
 overrides:
