@@ -1,6 +1,16 @@
 import { StyleSheet } from 'react-native-unistyles';
 
 export const styles = StyleSheet.create((theme) => ({
+  archivedBadge: {
+    backgroundColor: theme.colors.surfaceMuted,
+    borderRadius: theme.borderRadius.pill,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.xs,
+  },
+  badges: {
+    alignItems: 'flex-end',
+    gap: theme.spacing.xs,
+  },
   card: {
     gap: theme.spacing.md,
   },

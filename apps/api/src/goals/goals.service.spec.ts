@@ -31,6 +31,7 @@ describe('GoalsService', () => {
     createdAt,
     updatedAt,
     _count: { progressEntries: 0 },
+    progressEntries: [],
   };
 
   function createService() {
@@ -98,6 +99,7 @@ describe('GoalsService', () => {
     );
     expect(result).not.toHaveProperty('userId');
     expect(result.progressCount).toBe(0);
+    expect(result.hasProgressHistory).toBe(false);
   });
 
   it('rejects an unreachable reward threshold for a finite Goal', async () => {
@@ -126,6 +128,19 @@ describe('GoalsService', () => {
     expect(prisma.goal.findFirst).toHaveBeenCalledWith(
       expect.objectContaining({ where: { id: goalId, userId } }),
     );
+  });
+
+  it('reports progress history independently from active progress', async () => {
+    const { service, prisma } = createService();
+    prisma.goal.findFirst.mockResolvedValue({
+      ...selectedGoal,
+      progressEntries: [{ id: progressEntryId }],
+    });
+
+    await expect(service.get(userId, goalId)).resolves.toMatchObject({
+      hasProgressHistory: true,
+      progressCount: 0,
+    });
   });
 
   it('returns the same not-found response when an owned Goal is unavailable', async () => {

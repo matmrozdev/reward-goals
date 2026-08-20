@@ -47,6 +47,12 @@ export class GoalResponseDto {
   @ApiProperty({ minimum: 0 })
   progressCount!: number;
 
+  @ApiProperty({
+    description:
+      'Whether any progress entry exists, including entries that were undone.',
+  })
+  hasProgressHistory!: boolean;
+
   @ApiProperty({ type: GoalRewardResponseDto, nullable: true })
   reward!: GoalRewardResponseDto | null;
 

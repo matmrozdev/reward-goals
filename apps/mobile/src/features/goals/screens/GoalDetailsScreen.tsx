@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import { View } from 'react-native';
 
 import { ApiError } from '@/api/errors';
 import { GoalProgress } from '@/features/goals/components/GoalProgress';
 import { useGoalQuery } from '@/features/goals/hooks/useGoalQuery';
+import {
+  type GoalLifecycleAction,
+  useGoalLifecycleMutation,
+} from '@/features/goals/hooks/useGoalLifecycleMutation';
 import { formatGoalSchedule } from '@/features/goals/utils/format-goal-schedule';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
@@ -15,6 +20,8 @@ import { styles } from './GoalDetailsScreen.styles';
 type GoalDetailsScreenProps = {
   goalId: string;
   onBack: () => void;
+  onEdit: () => void;
+  successMessage?: string;
 };
 
 type DetailRowProps = {
@@ -31,18 +38,27 @@ const DetailRow = ({ label, value }: DetailRowProps) => (
 
 const statusLabels = {
   ACTIVE: 'Active',
-  ARCHIVED: 'Archived',
+  ABANDONED: 'Abandoned',
   COMPLETED: 'Completed',
 } as const;
 
 export const GoalDetailsScreen = ({
   goalId,
   onBack,
+  onEdit,
+  successMessage,
 }: GoalDetailsScreenProps) => {
   const goalQuery = useGoalQuery(goalId);
+  const lifecycleMutation = useGoalLifecycleMutation();
+  const [confirmationAction, setConfirmationAction] =
+    useState<GoalLifecycleAction | null>(null);
+  const [lifecycleSuccess, setLifecycleSuccess] = useState<string | null>(null);
   const goal = goalQuery.data;
   const errorMessage = goalQuery.error
     ? ApiError.fromUnknown(goalQuery.error).message
+    : null;
+  const lifecycleError = lifecycleMutation.error
+    ? ApiError.fromUnknown(lifecycleMutation.error).message
     : null;
 
   if (!goalId) {
@@ -85,6 +101,24 @@ export const GoalDetailsScreen = ({
   }
 
   const rewardStatus = goal.reward?.unlockedAt ? 'Unlocked' : 'Locked';
+  const runLifecycleAction = (action: GoalLifecycleAction) => {
+    setLifecycleSuccess(null);
+    lifecycleMutation.mutate(
+      { action, goalId },
+      {
+        onSuccess: () => {
+          setConfirmationAction(null);
+          setLifecycleSuccess(
+            {
+              abandon: 'Goal abandoned.',
+              archive: 'Goal archived.',
+              unarchive: 'Goal restored.',
+            }[action],
+          );
+        },
+      },
+    );
+  };
 
   return (
     <Screen contentContainerStyle={styles.content}>
@@ -105,6 +139,16 @@ export const GoalDetailsScreen = ({
           </Text>
         </Card>
       ) : null}
+      {successMessage || lifecycleSuccess ? (
+        <Text accessibilityRole="alert" tone="success">
+          {lifecycleSuccess ?? successMessage}
+        </Text>
+      ) : null}
+      {lifecycleError ? (
+        <Text accessibilityRole="alert" tone="danger">
+          {lifecycleError}
+        </Text>
+      ) : null}
       <View style={styles.header}>
         <Text variant="heading">{goal.title}</Text>
         {goal.description ? <Text tone="muted">{goal.description}</Text> : null}
@@ -115,8 +159,9 @@ export const GoalDetailsScreen = ({
         <DetailRow label="Status" value={statusLabels[goal.status]} />
         <DetailRow
           label="Type"
-          value={goal.measurementType === 'FINITE' ? 'Finite' : 'Ongoing'}
+          value={goal.targetValue === null ? 'Ongoing' : 'Finite'}
         />
+        <DetailRow label="Archived" value={goal.archivedAt ? 'Yes' : 'No'} />
         <DetailRow
           label="Schedule"
           value={formatGoalSchedule(goal.scheduleDays)}
@@ -134,6 +179,56 @@ export const GoalDetailsScreen = ({
           <Text tone="muted">
             Unlocks at {goal.reward.requiredProgress} completed
           </Text>
+        </Card>
+      ) : null}
+      <Card padding="large" style={styles.card}>
+        <Text variant="title">Manage Goal</Text>
+        <Button
+          disabled={lifecycleMutation.isPending}
+          label="Edit Goal"
+          onPress={onEdit}
+          variant="secondary"
+        />
+        <Button
+          disabled={lifecycleMutation.isPending}
+          label={goal.archivedAt ? 'Restore from archive' : 'Archive Goal'}
+          loading={
+            lifecycleMutation.isPending &&
+            lifecycleMutation.variables?.action !== 'abandon'
+          }
+          onPress={() =>
+            runLifecycleAction(goal.archivedAt ? 'unarchive' : 'archive')
+          }
+          variant="ghost"
+        />
+        {goal.status === 'ACTIVE' ? (
+          <Button
+            disabled={lifecycleMutation.isPending}
+            label="Abandon Goal"
+            onPress={() => setConfirmationAction('abandon')}
+            variant="danger"
+          />
+        ) : null}
+      </Card>
+      {confirmationAction === 'abandon' ? (
+        <Card padding="large" style={styles.card} variant="muted">
+          <Text variant="title">Abandon this Goal?</Text>
+          <Text tone="muted">
+            Progress history will be preserved, but no more progress can be
+            recorded.
+          </Text>
+          <Button
+            label="Confirm abandonment"
+            loading={lifecycleMutation.isPending}
+            onPress={() => runLifecycleAction('abandon')}
+            variant="danger"
+          />
+          <Button
+            disabled={lifecycleMutation.isPending}
+            label="Cancel"
+            onPress={() => setConfirmationAction(null)}
+            variant="ghost"
+          />
         </Card>
       ) : null}
     </Screen>

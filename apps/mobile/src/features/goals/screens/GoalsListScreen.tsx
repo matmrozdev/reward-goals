@@ -90,6 +90,10 @@ export const GoalsListScreen = () => {
                 </Text>
               </Card>
             ) : null}
+            <Button
+              label="Create Goal"
+              onPress={() => router.push('/goals/new' as Href)}
+            />
           </View>
         }
         ItemSeparatorComponent={() => <View style={styles.separator} />}

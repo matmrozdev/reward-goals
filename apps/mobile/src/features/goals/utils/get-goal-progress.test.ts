@@ -4,7 +4,6 @@ describe('getGoalProgress', () => {
   it('returns bounded finite progress', () => {
     expect(
       getGoalProgress({
-        measurementType: 'FINITE',
         progressCount: 6,
         targetValue: 4,
       }),
@@ -14,7 +13,6 @@ describe('getGoalProgress', () => {
   it('returns a count without a fraction for an ongoing goal', () => {
     expect(
       getGoalProgress({
-        measurementType: 'ONGOING',
         progressCount: 3,
         targetValue: null,
       }),

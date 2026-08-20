@@ -43,6 +43,10 @@ const publicGoalSelect = {
       progressEntries: { where: { undoneAt: null } },
     },
   },
+  progressEntries: {
+    select: { id: true },
+    take: 1,
+  },
 } satisfies Prisma.GoalSelect;
 
 type SelectedGoal = Prisma.GoalGetPayload<{ select: typeof publicGoalSelect }>;
@@ -465,6 +469,7 @@ function toPublicGoal(goal: SelectedGoal): PublicGoal {
     scheduleDays: goal.scheduleDays,
     status: goal.status,
     archivedAt: goal.archivedAt,
+    hasProgressHistory: goal.progressEntries.length > 0,
     progressCount: goal._count.progressEntries,
     reward: goal.reward,
     createdAt: goal.createdAt,
