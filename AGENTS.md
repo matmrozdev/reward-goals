@@ -44,6 +44,14 @@ Do not publish while the review concludes `Changes recommended before merge` or
 `Blocking issues found`. Address the findings or request user direction, then
 review the material changes again.
 
+## Mandatory pull request publishing
+
+Before pushing changes or creating or updating a pull request, use the
+`publish-pull-request` skill and follow:
+
+- `.agents/rules/shared/workflow/commit-convention.md`
+- `.agents/rules/shared/workflow/pull-requests.md`
+
 ## Maintain agent resources
 
 - Follow `.agents/rules/shared/authoring/rule-files.md` when changing rules.
