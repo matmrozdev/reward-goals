@@ -34,6 +34,20 @@ repository template before creating the branch. If work already started on a
 local branch, create or find the issue and rename the branch before its first
 push.
 
+## Mandatory task refinement
+
+After resolving the GitHub Issue and before starting implementation, use the
+`refine-task` skill and follow:
+
+- `.agents/rules/shared/workflow/task-refinement.md`
+
+Treat the issue's Description, Scope, and Acceptance Criteria as the primary
+requirements. Discover answers from the repository before asking the user, ask
+only about unresolved material decisions, and continue without questions when
+only minor implementation choices remain. If implementation later reveals a
+new material requirement, stop the affected work and refine it before
+continuing.
+
 ## Mandatory pre-push review
 
 After implementation is complete and before the first push or an update to an

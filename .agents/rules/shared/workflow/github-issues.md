@@ -9,6 +9,7 @@ applies_to:
   - first branch push
 related_skills:
   - github-task-workflow
+  - refine-task
 ---
 
 # GitHub issues

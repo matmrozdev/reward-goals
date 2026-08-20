@@ -32,7 +32,10 @@ branch contains a real issue number.
 8. Confirm the working tree can be preserved, then create the branch. If work
    already exists on a local nonconforming branch, rename it before its first
    push instead.
-9. Report the issue URL and final branch name.
+9. For implementation work, hand off to `refine-task` after issue resolution
+   and branch preparation. Do not absorb requirements-refinement decisions into
+   this Git workflow.
+10. Report the issue URL and final branch name.
 
 ## Tool selection
 
