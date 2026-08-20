@@ -6,9 +6,9 @@ type GoalProgress = {
 };
 
 export const getGoalProgress = (
-  goal: Pick<Goal, 'measurementType' | 'progressCount' | 'targetValue'>,
+  goal: Pick<Goal, 'progressCount' | 'targetValue'>,
 ): GoalProgress => {
-  if (goal.measurementType === 'ONGOING' || goal.targetValue === null) {
+  if (goal.targetValue === null) {
     return {
       fraction: null,
       label: `${goal.progressCount} completed`,

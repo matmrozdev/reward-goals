@@ -1,6 +1,6 @@
-export type GoalMeasurementType = 'FINITE' | 'ONGOING';
+export type GoalMeasurementType = 'COUNT';
 
-export type GoalStatus = 'ACTIVE' | 'COMPLETED' | 'ARCHIVED';
+export type GoalStatus = 'ACTIVE' | 'COMPLETED' | 'ABANDONED';
 
 export type Weekday =
   | 'MONDAY'
@@ -23,6 +23,7 @@ export type Goal = {
   createdAt: string;
   description: string | null;
   id: string;
+  hasProgressHistory: boolean;
   measurementType: GoalMeasurementType;
   progressCount: number;
   reward: GoalReward | null;
@@ -35,3 +36,18 @@ export type Goal = {
 
 export type GoalEnvelope = { goal: Goal };
 export type GoalListResponse = { goals: Goal[] };
+
+export type GoalRewardInput = {
+  requiredProgress: number;
+  title: string;
+};
+
+export type CreateGoalInput = {
+  description?: string | null;
+  reward?: GoalRewardInput | null;
+  scheduleDays?: Weekday[];
+  targetValue?: number | null;
+  title: string;
+};
+
+export type UpdateGoalInput = Partial<CreateGoalInput>;

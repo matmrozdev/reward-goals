@@ -20,6 +20,7 @@ export interface PublicGoal {
   scheduleDays: Weekday[];
   status: GoalStatus;
   archivedAt: Date | null;
+  hasProgressHistory: boolean;
   progressCount: number;
   reward: PublicGoalReward | null;
   createdAt: Date;

@@ -7,7 +7,7 @@ import { Text } from '@/ui/components/Text';
 import { styles } from './GoalProgress.styles';
 
 type GoalProgressProps = {
-  goal: Pick<Goal, 'measurementType' | 'progressCount' | 'targetValue'>;
+  goal: Pick<Goal, 'progressCount' | 'targetValue'>;
 };
 
 export const GoalProgress = ({ goal }: GoalProgressProps) => {

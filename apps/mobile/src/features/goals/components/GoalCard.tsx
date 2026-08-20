@@ -15,7 +15,7 @@ type GoalCardProps = {
 
 const statusLabels: Record<Goal['status'], string> = {
   ACTIVE: 'Active',
-  ARCHIVED: 'Archived',
+  ABANDONED: 'Abandoned',
   COMPLETED: 'Completed',
 };
 
@@ -32,10 +32,19 @@ export const GoalCard = ({ goal, onPress }: GoalCardProps) => (
         <Text style={styles.title} variant="title">
           {goal.title}
         </Text>
-        <View style={styles.statusBadge}>
-          <Text tone="primary" variant="caption">
-            {statusLabels[goal.status]}
-          </Text>
+        <View style={styles.badges}>
+          <View style={styles.statusBadge}>
+            <Text tone="primary" variant="caption">
+              {statusLabels[goal.status]}
+            </Text>
+          </View>
+          {goal.archivedAt ? (
+            <View style={styles.archivedBadge}>
+              <Text tone="muted" variant="caption">
+                Archived
+              </Text>
+            </View>
+          ) : null}
         </View>
       </View>
       {goal.description ? (

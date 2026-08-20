@@ -56,6 +56,7 @@ describe('Goals API (e2e)', () => {
       scheduleDays: [Weekday.MONDAY, Weekday.WEDNESDAY, Weekday.SUNDAY],
       status: GoalStatus.ACTIVE,
       archivedAt: null,
+      hasProgressHistory: false,
       progressCount: 0,
       reward: {
         id: expect.any(String),
@@ -153,7 +154,7 @@ describe('Goals API (e2e)', () => {
     });
     const goalId = created.body.goal.id;
 
-    await addProgress(owner.accessToken, goalId);
+    const first = await addProgress(owner.accessToken, goalId);
     const second = await addProgress(owner.accessToken, goalId);
     expect(second.body.goal).toMatchObject({
       progressCount: 2,
@@ -185,9 +186,21 @@ describe('Goals API (e2e)', () => {
       second.body.progressEntry.id,
     );
     expect(relocked.body.goal).toMatchObject({
+      hasProgressHistory: true,
       progressCount: 1,
       status: GoalStatus.ACTIVE,
       reward: { unlockedAt: null },
+    });
+
+    const cleared = await undoProgress(
+      owner.accessToken,
+      goalId,
+      first.body.progressEntry.id,
+    );
+    expect(cleared.body.goal).toMatchObject({
+      hasProgressHistory: true,
+      progressCount: 0,
+      status: GoalStatus.ACTIVE,
     });
 
     const entries = await prisma.goalProgressEntry.findMany({
@@ -195,7 +208,7 @@ describe('Goals API (e2e)', () => {
       orderBy: { createdAt: 'asc' },
     });
     expect(entries).toHaveLength(3);
-    expect(entries.filter(({ undoneAt }) => undoneAt !== null)).toHaveLength(2);
+    expect(entries.filter(({ undoneAt }) => undoneAt !== null)).toHaveLength(3);
   });
 
   it('keeps ongoing Goals active until explicitly completed', async () => {
