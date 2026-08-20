@@ -6,7 +6,7 @@ import { App } from 'supertest/types';
 import { configureApplication } from '../src/app.bootstrap';
 import { AppModule } from '../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
-import { assertSafeTestDatabase } from './test-database';
+import { clearTestDatabase } from './test-database';
 
 jest.setTimeout(30_000);
 
@@ -30,8 +30,7 @@ describe('Authentication API (e2e)', () => {
   });
 
   beforeEach(async () => {
-    assertSafeTestDatabase();
-    await prisma.user.deleteMany();
+    await clearTestDatabase(prisma);
   });
 
   afterAll(async () => {
