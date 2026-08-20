@@ -15,6 +15,7 @@ model User {
   passwordHash    String
   createdAt       DateTime         @default(now())
   refreshSessions RefreshSession[]
+  goals           Goal[]
 }
 
 model RefreshSession {
@@ -28,4 +29,69 @@ model RefreshSession {
 
   @@index([userId])
   @@index([expiresAt])
+}
+
+enum GoalMeasurementType {
+  COUNT
+}
+
+enum GoalStatus {
+  ACTIVE
+  COMPLETED
+  ABANDONED
+}
+
+enum Weekday {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+model Goal {
+  id              String              @id @default(uuid()) @db.Uuid
+  userId          String              @db.Uuid
+  title           String              @db.VarChar(120)
+  description     String?             @db.VarChar(1000)
+  measurementType GoalMeasurementType @default(COUNT)
+  targetValue     Int?
+  scheduleDays    Weekday[]           @default([])
+  status          GoalStatus          @default(ACTIVE)
+  archivedAt      DateTime?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  progressEntries GoalProgressEntry[]
+  reward          GoalReward?
+
+  @@index([userId])
+  @@index([userId, archivedAt])
+  @@index([userId, status])
+}
+
+model GoalProgressEntry {
+  id        String    @id @default(uuid()) @db.Uuid
+  goalId    String    @db.Uuid
+  createdAt DateTime  @default(now())
+  undoneAt  DateTime?
+  goal      Goal      @relation(fields: [goalId], references: [id], onDelete: Cascade)
+
+  @@index([goalId, undoneAt])
+  @@index([goalId, createdAt])
+}
+
+model GoalReward {
+  id               String    @id @default(uuid()) @db.Uuid
+  goalId           String    @unique @db.Uuid
+  title            String    @db.VarChar(120)
+  requiredProgress Int
+  unlockedAt       DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  goal             Goal      @relation(fields: [goalId], references: [id], onDelete: Cascade)
+
+  @@index([goalId, unlockedAt])
 }
