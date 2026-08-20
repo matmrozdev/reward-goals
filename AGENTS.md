@@ -34,6 +34,18 @@ repository template before creating the branch. If work already started on a
 local branch, create or find the issue and rename the branch before its first
 push.
 
+## Mandatory pre-push review
+
+After implementation is complete and before the first push or an update to an
+existing pull request, use the `review-code-changes` skill. Run the review once
+for the completed change and repeat it only after material changes.
+
+Do not publish while the review concludes `Changes recommended before merge` or
+`Blocking issues found`. Address the findings or request user direction, then
+review the material changes again.
+
+## Mandatory pull request publishing
+
 Before pushing changes or creating or updating a pull request, use the
 `publish-pull-request` skill and follow:
 
