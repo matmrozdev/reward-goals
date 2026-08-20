@@ -1,9 +1,10 @@
 ---
 title: Mobile integrations
-description: Define ownership boundaries for HTTP infrastructure, feature APIs, persistence, external SDKs, configuration, and provider composition.
+description: Define ownership boundaries and conventions for HTTP infrastructure, server-state hooks, persistence, external SDKs, configuration, and provider composition.
 scope: mobile
 applies_to:
   - mobile API implementation
+  - mobile TanStack Query hook creation
   - mobile persistence implementation
   - mobile external SDK integration
   - mobile configuration changes
@@ -40,6 +41,21 @@ features/auth/api/auth.api.ts
 ```
 
 Name business API modules `<domain>.api.ts`.
+
+## TanStack Query hooks
+
+Name TanStack Query hook files and exported functions after both the business
+operation and the server-state primitive they expose:
+
+```text
+useCurrentUserQuery.ts      -> useCurrentUserQuery
+useRegisterMutation.ts      -> useRegisterMutation
+```
+
+Use the `Query` suffix for hooks backed by `useQuery` and the `Mutation` suffix
+for hooks backed by `useMutation`. Keep transport method names focused on the
+business operation, such as `authApi.register` and `authApi.getCurrentUser`;
+do not add TanStack-specific suffixes to API methods.
 
 ## Storage
 
