@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
-import { trimString } from './transform-string';
+import { trimString } from '../../common/transform-string';
 
 export class LoginDto {
   @ApiProperty({ example: 'person@example.com' })

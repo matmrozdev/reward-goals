@@ -23,5 +23,6 @@ import { TokenService } from './token.service';
     PasswordService,
     TokenService,
   ],
+  exports: [AccessTokenGuard],
 })
 export class AuthModule {}
