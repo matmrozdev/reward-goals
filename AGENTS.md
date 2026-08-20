@@ -34,6 +34,12 @@ repository template before creating the branch. If work already started on a
 local branch, create or find the issue and rename the branch before its first
 push.
 
+Before pushing changes or creating or updating a pull request, use the
+`publish-pull-request` skill and follow:
+
+- `.agents/rules/shared/workflow/commit-convention.md`
+- `.agents/rules/shared/workflow/pull-requests.md`
+
 ## Maintain agent resources
 
 - Follow `.agents/rules/shared/authoring/rule-files.md` when changing rules.
