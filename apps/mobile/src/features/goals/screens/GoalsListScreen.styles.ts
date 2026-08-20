@@ -30,10 +30,4 @@ export const styles = StyleSheet.create((theme) => ({
   stateCard: {
     gap: theme.spacing.lg,
   },
-  titleRow: {
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    gap: theme.spacing.md,
-    justifyContent: 'space-between',
-  },
 }));

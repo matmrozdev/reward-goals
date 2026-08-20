@@ -14,6 +14,7 @@ import { styles } from './Screen.styles';
 export type ScreenProps = Omit<ViewProps, 'style'> & {
   centered?: boolean;
   contentContainerStyle?: StyleProp<ViewStyle>;
+  contentInsetAdjustmentBehavior?: ScrollViewProps['contentInsetAdjustmentBehavior'];
   keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps'];
   safeAreaEdges?: Edge[];
   scroll?: boolean;
@@ -27,6 +28,7 @@ export const Screen = ({
   centered = false,
   children,
   contentContainerStyle,
+  contentInsetAdjustmentBehavior = 'automatic',
   keyboardShouldPersistTaps = 'handled',
   safeAreaEdges = defaultSafeAreaEdges,
   scroll = true,
@@ -47,6 +49,7 @@ export const Screen = ({
           centered && styles.centered,
           contentContainerStyle,
         ]}
+        contentInsetAdjustmentBehavior={contentInsetAdjustmentBehavior}
         keyboardShouldPersistTaps={keyboardShouldPersistTaps}
       >
         {children}
