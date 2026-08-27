@@ -6,3 +6,6 @@ build
 pnpm-lock.yaml
 apps/**/assets
 **/expo-env.d.ts
+.codex/
+**/.cxx/
+**/generated/
