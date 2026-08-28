@@ -16,8 +16,8 @@ description: Implement or refactor Reward Goals mobile code by selecting and app
 4. Read the focused rules that match the change:
    - Read `../../rules/mobile/components/components.md` for components, screens,
      hooks, types, exports, barrels, naming, or imports.
-   - Read `../../rules/mobile/styling/styling.md` for styles, themes, tokens, or
-     animations.
+   - Read `../../rules/mobile/styling/styling.md` for styles, themes, tokens,
+     image assets, or animations.
    - Read `../../rules/mobile/testing/utils-and-testing.md` for helpers,
      utilities, or tests.
    - Read `../../rules/mobile/integrations/integrations.md` for API transport,

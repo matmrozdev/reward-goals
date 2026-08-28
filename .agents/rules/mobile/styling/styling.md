@@ -1,10 +1,11 @@
 ---
 title: Mobile styling
-description: Define React Native Unistyles usage, style files, theme ownership, token usage, animation placement, and styling-system boundaries.
+description: Define React Native Unistyles usage, style files, theme ownership, token usage, mobile image assets, animation placement, and styling-system boundaries.
 scope: mobile
 applies_to:
   - mobile component styling
   - mobile theme changes
+  - mobile image asset creation and usage
   - mobile animation implementation
   - mobile visual refactoring
 related_skills:
