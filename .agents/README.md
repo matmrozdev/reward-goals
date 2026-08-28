@@ -28,7 +28,7 @@ in the root `AGENTS.md`.
 | Mobile | Framework     | [Expo](rules/mobile/framework/expo.md)                             | Use the exact Expo documentation matching the installed SDK.                                                          |
 | Mobile | Architecture  | [Architecture](rules/mobile/architecture/architecture.md)          | Define project structure, ownership boundaries, feature organization, routes, screens, and colocation.                |
 | Mobile | Components    | [Components](rules/mobile/components/components.md)                | Define component structure, naming, functions, props, exports, barrels, and imports.                                  |
-| Mobile | Styling       | [Styling](rules/mobile/styling/styling.md)                         | Define Unistyles, style files, theme tokens, theme ownership, animations, and styling boundaries.                     |
+| Mobile | Styling       | [Styling](rules/mobile/styling/styling.md)                         | Define Unistyles, style files, theme tokens, image assets, theme ownership, animations, and styling boundaries.       |
 | Mobile | Testing       | [Utilities and testing](rules/mobile/testing/utils-and-testing.md) | Define helper extraction, utility naming, mandatory tests, and unit-test quality.                                     |
 | Mobile | Integrations  | [Integrations](rules/mobile/integrations/integrations.md)          | Define API, storage, service, configuration, SDK, and provider ownership.                                             |
 | Mobile | Review        | [Mobile code review](rules/mobile/review/code-review.md)           | Review mobile lifecycle, state, ownership, accessibility, styling, and platform risks.                                |
