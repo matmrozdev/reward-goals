@@ -75,3 +75,26 @@ technically appropriate. Visual animation styles and constants may live in
 
 Keep complex runtime animation logic with the component or owning runtime
 module when moving it into a style file would reduce clarity.
+
+## Image assets
+
+- Use raster assets for photography, watercolor, glow, blur, noise, and
+  gradient-heavy artwork. Keep genuinely vector icons and logomarks as SVG.
+- Keep editable, lossless masters outside the runtime asset directory. Export
+  the app copy as lossless or near-lossless WebP after checking for halos,
+  banding, and color shifts; use PNG when WebP does not preserve the artwork.
+- Store runtime images under the narrowest owner in `assets/images/`, using
+  descriptive kebab-case names. Do not include pixel dimensions in filenames.
+- Render app images with `expo-image` and a static `require(...)`. Preserve the
+  intrinsic aspect ratio, use percentage widths and responsive maximum widths,
+  and choose `contentFit="contain"` unless cropping is intentional.
+- Use theme spacing for surrounding gaps. Do not reproduce internal artwork
+  with fixed `top`, `right`, `bottom`, or `left` coordinates.
+- Mark decorative images as inaccessible. Give meaningful images a concise
+  accessibility label that does not repeat adjacent visible text.
+- Export enough pixels for two to three times the largest rendered size, then
+  verify small and large phones, tablets, supported orientations, themes, and
+  accessibility text sizes for stretching, clipping, overlap, and upscaling.
+- Do not tint opaque painterly artwork at runtime. Provide a theme-specific
+  variant or omit the artwork when its background or contrast cannot be
+  preserved.
