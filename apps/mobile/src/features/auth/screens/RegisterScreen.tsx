@@ -1,28 +1,26 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type Href, useRouter } from 'expo-router';
+import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
-import { z } from 'zod';
+import { withUnistyles } from 'react-native-unistyles';
 
 import { ApiError } from '@/api/errors';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
+import { PasswordInput } from '@/ui/components/PasswordInput';
 import { Screen } from '@/ui/components/Screen';
 import { Text } from '@/ui/components/Text';
 import { TextInput } from '@/ui/components/TextInput';
 
 import { useRegisterMutation } from '@/features/auth/hooks/useRegisterMutation';
-import { styles } from './AuthScreen.styles';
+import {
+  registerFormSchema,
+  type RegisterFormValues,
+} from '@/features/auth/utils/register-form-schema';
+import { styles } from './RegisterScreen.styles';
 
-const registerSchema = z.object({
-  email: z.string().trim().pipe(z.email('Enter a valid email address.')),
-  password: z
-    .string()
-    .min(8, 'Use at least 8 characters.')
-    .max(128, 'Use no more than 128 characters.'),
-});
-
-type RegisterFormValues = z.infer<typeof registerSchema>;
+const ThemedImage = withUnistyles(Image);
 
 export const RegisterScreen = () => {
   const router = useRouter();
@@ -32,29 +30,49 @@ export const RegisterScreen = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormValues>({
-    defaultValues: { email: '', password: '' },
-    resolver: zodResolver(registerSchema),
+    defaultValues: { confirmPassword: '', email: '', password: '' },
+    resolver: zodResolver(registerFormSchema),
   });
   const serverError = registerMutation.error
     ? ApiError.fromUnknown(registerMutation.error).message
     : null;
 
-  const submit = handleSubmit((values) => {
-    registerMutation.register(values, {
-      onSuccess: () => router.replace('/login?registered=1' as Href),
-    });
+  const handleRegistrationSuccess = () => {
+    router.replace({ pathname: '/login', params: { registered: '1' } });
+  };
+  const handleSignInPress = () => {
+    router.replace('/login');
+  };
+  const submit = handleSubmit(({ email, password }) => {
+    registerMutation.register(
+      { email, password },
+      {
+        onSuccess: handleRegistrationSuccess,
+      },
+    );
   });
 
   return (
-    <Screen contentContainerStyle={styles.content} centered>
+    <Screen contentContainerStyle={styles.content}>
+      <View style={styles.hero}>
+        <ThemedImage
+          accessible={false}
+          contentFit="contain"
+          source={require('../../../../assets/images/auth/register-reward-hero.png')}
+          style={styles.heroImage}
+        />
+      </View>
+
       <View style={styles.header}>
-        <Text variant="heading">Create your account</Text>
-        <Text tone="muted">
-          Start with an email and a secure password. You can add goals next.
+        <Text style={styles.title} variant="heading">
+          Create your account
+        </Text>
+        <Text style={styles.subtitle} tone="muted">
+          Start building consistency today.
         </Text>
       </View>
 
-      <Card padding="large" style={styles.card}>
+      <Card padding="large" style={styles.card} variant="elevated">
         {serverError ? (
           <Text accessibilityRole="alert" tone="danger">
             {serverError}
@@ -72,8 +90,10 @@ export const RegisterScreen = () => {
                 error={errors.email?.message}
                 keyboardType="email-address"
                 label="Email"
+                leadingIcon="email-outline"
                 onBlur={onBlur}
                 onChangeText={onChange}
+                placeholder="Enter your email"
                 returnKeyType="next"
                 value={value}
               />
@@ -83,7 +103,7 @@ export const RegisterScreen = () => {
             control={control}
             name="password"
             render={({ field: { onBlur, onChange, value } }) => (
-              <TextInput
+              <PasswordInput
                 autoCapitalize="none"
                 autoComplete="new-password"
                 error={errors.password?.message}
@@ -91,9 +111,26 @@ export const RegisterScreen = () => {
                 label="Password"
                 onBlur={onBlur}
                 onChangeText={onChange}
+                placeholder="Enter your password"
+                returnKeyType="next"
+                value={value}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="confirmPassword"
+            render={({ field: { onBlur, onChange, value } }) => (
+              <PasswordInput
+                autoCapitalize="none"
+                autoComplete="new-password"
+                error={errors.confirmPassword?.message}
+                label="Confirm password"
+                onBlur={onBlur}
+                onChangeText={onChange}
                 onSubmitEditing={submit}
+                placeholder="Confirm your password"
                 returnKeyType="done"
-                secureTextEntry
                 value={value}
               />
             )}
@@ -105,15 +142,22 @@ export const RegisterScreen = () => {
             label="Create account"
             loading={registerMutation.isPending}
             onPress={submit}
-          />
-          <Button
-            disabled={registerMutation.isPending}
-            label="Back to sign in"
-            onPress={() => router.replace('/login' as Href)}
-            variant="ghost"
+            size="large"
           />
         </View>
       </Card>
+
+      <View style={styles.signInPrompt}>
+        <Text>Already have an account?</Text>
+        <Button
+          disabled={registerMutation.isPending}
+          label="Sign in"
+          onPress={handleSignInPress}
+          size="small"
+          style={styles.signInButton}
+          variant="ghost"
+        />
+      </View>
     </Screen>
   );
 };

@@ -8,16 +8,32 @@ export const styles = StyleSheet.create((theme) => ({
     ...theme.typography.label,
     color: theme.colors.text,
   },
-  input: {
-    ...theme.typography.body,
+  inputContainer: {
+    alignItems: 'center',
     backgroundColor: theme.colors.surface,
     borderColor: theme.colors.border,
     borderRadius: theme.borderRadius.md,
     borderWidth: theme.sizes.borderWidth,
-    color: theme.colors.text,
+    flexDirection: 'row',
     minHeight: theme.sizes.controlMedium,
+  },
+  input: {
+    ...theme.typography.body,
+    color: theme.colors.text,
+    flex: 1,
+    minHeight: theme.sizes.controlMedium - theme.sizes.borderWidth * 2,
     paddingHorizontal: theme.spacing.lg,
     paddingVertical: theme.spacing.md,
+  },
+  leadingAdornment: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: theme.spacing.lg,
+  },
+  trailingAdornment: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: theme.spacing.xs,
   },
   focused: {
     borderColor: theme.colors.primary,
@@ -27,6 +43,8 @@ export const styles = StyleSheet.create((theme) => ({
   },
   disabled: {
     backgroundColor: theme.colors.disabledSurface,
+  },
+  disabledInput: {
     color: theme.colors.disabledText,
   },
   supportingText: {

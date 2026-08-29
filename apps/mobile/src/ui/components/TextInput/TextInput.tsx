@@ -1,4 +1,6 @@
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useId, useState } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import { Text, TextInput as NativeTextInput, View } from 'react-native';
 import type {
   BlurEvent,
@@ -14,6 +16,8 @@ export type TextInputProps = NativeTextInputProps & {
   error?: string;
   hint?: string;
   label?: string;
+  leadingIcon?: ComponentProps<typeof MaterialCommunityIcons>['name'];
+  trailingAdornment?: ReactNode;
 };
 
 export const TextInput = ({
@@ -24,12 +28,14 @@ export const TextInput = ({
   error,
   hint,
   label,
+  leadingIcon,
   nativeID,
   onBlur,
   onFocus,
   placeholderTextColor,
   selectionColor,
   style,
+  trailingAdornment,
   ...props
 }: TextInputProps) => {
   const generatedId = useId();
@@ -55,31 +61,48 @@ export const TextInput = ({
           {label}
         </Text>
       ) : null}
-      <NativeTextInput
-        {...props}
-        accessibilityLabel={accessibilityLabel ?? label}
-        accessibilityState={{
-          ...accessibilityState,
-          disabled: isDisabled,
-        }}
-        aria-describedby={
-          supportingText ? `${inputId}-supporting-text` : undefined
-        }
-        aria-invalid={Boolean(error)}
-        editable={!isDisabled}
-        nativeID={inputId}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-        placeholderTextColor={placeholderTextColor ?? theme.colors.textMuted}
-        selectionColor={selectionColor ?? theme.colors.primary}
+      <View
         style={[
-          styles.input,
+          styles.inputContainer,
           isFocused && styles.focused,
           Boolean(error) && styles.invalid,
           isDisabled && styles.disabled,
-          style,
         ]}
-      />
+      >
+        {leadingIcon ? (
+          <View style={styles.leadingAdornment}>
+            <MaterialCommunityIcons
+              accessibilityElementsHidden
+              color={theme.colors.textMuted}
+              importantForAccessibility="no-hide-descendants"
+              name={leadingIcon}
+              size={theme.spacing.xl}
+            />
+          </View>
+        ) : null}
+        <NativeTextInput
+          {...props}
+          accessibilityLabel={accessibilityLabel ?? label}
+          accessibilityState={{
+            ...accessibilityState,
+            disabled: isDisabled,
+          }}
+          aria-describedby={
+            supportingText ? `${inputId}-supporting-text` : undefined
+          }
+          aria-invalid={Boolean(error)}
+          editable={!isDisabled}
+          nativeID={inputId}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          placeholderTextColor={placeholderTextColor ?? theme.colors.textMuted}
+          selectionColor={selectionColor ?? theme.colors.primary}
+          style={[styles.input, isDisabled && styles.disabledInput, style]}
+        />
+        {trailingAdornment ? (
+          <View style={styles.trailingAdornment}>{trailingAdornment}</View>
+        ) : null}
+      </View>
       {supportingText ? (
         <Text
           accessibilityLiveRegion={error ? 'polite' : 'none'}
