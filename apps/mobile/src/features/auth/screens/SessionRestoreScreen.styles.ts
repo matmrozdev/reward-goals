@@ -21,9 +21,6 @@ export const styles = StyleSheet.create((theme) => ({
     maxWidth: theme.sizes.contentMaxWidth,
     width: '100%',
   },
-  form: {
-    gap: theme.spacing.lg,
-  },
   header: {
     gap: theme.spacing.sm,
   },

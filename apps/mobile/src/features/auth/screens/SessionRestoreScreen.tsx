@@ -7,7 +7,7 @@ import { Screen } from '@/ui/components/Screen';
 import { Text } from '@/ui/components/Text';
 
 import { useAuth } from '@/features/auth/AuthProvider';
-import { styles } from './AuthScreen.styles';
+import { styles } from './SessionRestoreScreen.styles';
 
 export const SessionRestoreScreen = () => {
   const { clearAuthentication, restoreError, retryRestore, status } = useAuth();
