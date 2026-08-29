@@ -5,23 +5,24 @@ import { useUnistyles } from 'react-native-unistyles';
 
 import { TextInput, type TextInputProps } from '@/ui/components/TextInput';
 
-import { styles } from './PasswordInput.styles';
+import { styles } from './SecureTextInput.styles';
 
-export type PasswordInputProps = Omit<
+export type SecureTextInputProps = Omit<
   TextInputProps,
-  'leadingIcon' | 'secureTextEntry' | 'trailingAdornment'
+  'secureTextEntry' | 'trailingAdornment'
 >;
 
-export const PasswordInput = ({
+export const SecureTextInput = ({
+  accessibilityLabel,
   disabled = false,
   editable = true,
-  label = 'Password',
+  label,
   ...props
-}: PasswordInputProps) => {
+}: SecureTextInputProps) => {
   const { theme } = useUnistyles();
   const [isVisible, setIsVisible] = useState(false);
   const isDisabled = disabled || !editable;
-  const fieldName = label.toLowerCase();
+  const fieldName = accessibilityLabel ?? label ?? 'secure text';
   const handleVisibilityPress = () => {
     setIsVisible((visible) => !visible);
   };
@@ -29,14 +30,14 @@ export const PasswordInput = ({
   return (
     <TextInput
       {...props}
+      accessibilityLabel={accessibilityLabel}
       disabled={disabled}
       editable={editable}
       label={label}
-      leadingIcon="lock-outline"
       secureTextEntry={!isVisible}
       trailingAdornment={
         <Pressable
-          accessibilityLabel={`${isVisible ? 'Hide' : 'Show'} ${fieldName}`}
+          accessibilityLabel={`${isVisible ? 'Hide' : 'Show'} ${fieldName.toLowerCase()}`}
           accessibilityRole="button"
           accessibilityState={{ disabled: isDisabled }}
           disabled={isDisabled}

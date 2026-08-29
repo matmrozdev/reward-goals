@@ -8,8 +8,8 @@ import { withUnistyles } from 'react-native-unistyles';
 import { ApiError } from '@/api/errors';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
-import { PasswordInput } from '@/ui/components/PasswordInput';
 import { Screen } from '@/ui/components/Screen';
+import { SecureTextInput } from '@/ui/components/SecureTextInput';
 import { Text } from '@/ui/components/Text';
 import { TextInput } from '@/ui/components/TextInput';
 
@@ -103,12 +103,13 @@ export const RegisterScreen = () => {
             control={control}
             name="password"
             render={({ field: { onBlur, onChange, value } }) => (
-              <PasswordInput
+              <SecureTextInput
                 autoCapitalize="none"
                 autoComplete="new-password"
                 error={errors.password?.message}
                 hint="Use 8–128 characters."
                 label="Password"
+                leadingIcon="lock-outline"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 placeholder="Enter your password"
@@ -121,11 +122,12 @@ export const RegisterScreen = () => {
             control={control}
             name="confirmPassword"
             render={({ field: { onBlur, onChange, value } }) => (
-              <PasswordInput
+              <SecureTextInput
                 autoCapitalize="none"
                 autoComplete="new-password"
                 error={errors.confirmPassword?.message}
                 label="Confirm password"
+                leadingIcon="lock-outline"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 onSubmitEditing={submit}
