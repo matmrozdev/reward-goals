@@ -1,5 +1,5 @@
-import { GoalsListScreen } from '@/features/goals/screens/GoalsListScreen';
+import { DashboardScreen } from '@/features/dashboard/screens/DashboardScreen';
 
-export default function GoalsRoute() {
-  return <GoalsListScreen />;
+export default function DashboardRoute() {
+  return <DashboardScreen />;
 }
