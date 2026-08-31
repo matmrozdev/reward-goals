@@ -17,6 +17,7 @@ describe('CreateGoalDto', () => {
         title: '  Read consistently  ',
         targetValue: 20,
         scheduleDays: [Weekday.MONDAY, Weekday.WEDNESDAY],
+        scheduledTimeMinutes: 420,
         reward: { title: 'New book', requiredProgress: 10 },
       }),
     ).resolves.toHaveLength(0);
@@ -31,6 +32,11 @@ describe('CreateGoalDto', () => {
   it.each([
     ['blank title', { title: '   ' }],
     ['non-positive target', { title: 'Read', targetValue: 0 }],
+    ['negative scheduled time', { title: 'Read', scheduledTimeMinutes: -1 }],
+    [
+      'scheduled time after midnight boundary',
+      { title: 'Read', scheduledTimeMinutes: 1440 },
+    ],
     [
       'duplicate weekdays',
       {
@@ -54,6 +60,7 @@ describe('UpdateGoalDto', () => {
     const errors = await validate(
       plainToInstance(UpdateGoalDto, {
         description: null,
+        scheduledTimeMinutes: null,
         targetValue: null,
         reward: null,
       }),

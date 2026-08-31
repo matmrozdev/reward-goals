@@ -38,6 +38,9 @@ export class GoalResponseDto {
   @ApiProperty({ enum: Weekday, isArray: true })
   scheduleDays!: Weekday[];
 
+  @ApiProperty({ maximum: 1439, minimum: 0, nullable: true })
+  scheduledTimeMinutes!: number | null;
+
   @ApiProperty({ enum: GoalStatus })
   status!: GoalStatus;
 

@@ -44,6 +44,7 @@ describe('Goals API (e2e)', () => {
       description: 'Complete focused reading sessions.',
       targetValue: 3,
       scheduleDays: [Weekday.SUNDAY, Weekday.MONDAY, Weekday.WEDNESDAY],
+      scheduledTimeMinutes: 420,
       reward: { title: 'Enjoy a new book', requiredProgress: 2 },
     });
 
@@ -54,6 +55,7 @@ describe('Goals API (e2e)', () => {
       measurementType: 'COUNT',
       targetValue: 3,
       scheduleDays: [Weekday.MONDAY, Weekday.WEDNESDAY, Weekday.SUNDAY],
+      scheduledTimeMinutes: 420,
       status: GoalStatus.ACTIVE,
       archivedAt: null,
       hasProgressHistory: false,
@@ -76,8 +78,30 @@ describe('Goals API (e2e)', () => {
     expect(storedGoal).toMatchObject({
       userId: owner.userId,
       scheduleDays: [Weekday.MONDAY, Weekday.WEDNESDAY, Weekday.SUNDAY],
+      scheduledTimeMinutes: 420,
       reward: { requiredProgress: 2, unlockedAt: null },
     });
+  });
+
+  it('defaults scheduled time safely and enforces its database range', async () => {
+    const owner = await createAuthenticatedUser('owner@example.com');
+    const created = await createGoal(owner.accessToken, {
+      title: 'No scheduled time',
+    });
+
+    expect(created.body.goal.scheduledTimeMinutes).toBeNull();
+    await expect(
+      prisma.goal.create({
+        data: {
+          userId: owner.userId,
+          title: 'Invalid scheduled time',
+          scheduledTimeMinutes: 1440,
+        },
+      }),
+    ).rejects.toThrow();
+    await expect(
+      prisma.goal.count({ where: { userId: owner.userId } }),
+    ).resolves.toBe(1);
   });
 
   it('lists and retrieves only the authenticated user’s Goals', async () => {
@@ -120,15 +144,25 @@ describe('Goals API (e2e)', () => {
         title: 'Updated title',
         description: 'Updated description',
         scheduleDays: [Weekday.FRIDAY, Weekday.TUESDAY],
+        scheduledTimeMinutes: 1140,
       })
       .expect(200);
     expect(updated.body.goal).toMatchObject({
       title: 'Updated title',
       description: 'Updated description',
       scheduleDays: [Weekday.TUESDAY, Weekday.FRIDAY],
+      scheduledTimeMinutes: 1140,
     });
 
     await addProgress(owner.accessToken, goalId);
+    await request(app.getHttpServer())
+      .patch(`/goals/${goalId}`)
+      .set(bearer(owner.accessToken))
+      .send({ scheduledTimeMinutes: null })
+      .expect(200)
+      .expect(({ body }) => {
+        expect(body.goal.scheduledTimeMinutes).toBeNull();
+      });
     await request(app.getHttpServer())
       .patch(`/goals/${goalId}`)
       .set(bearer(owner.accessToken))
@@ -142,6 +176,7 @@ describe('Goals API (e2e)', () => {
       title: 'Updated title',
       targetValue: 3,
       scheduleDays: [Weekday.TUESDAY, Weekday.FRIDAY],
+      scheduledTimeMinutes: null,
     });
   });
 
@@ -305,6 +340,8 @@ describe('Goals API (e2e)', () => {
     for (const body of [
       { title: '   ' },
       { title: 'Goal', targetValue: 0 },
+      { title: 'Goal', scheduledTimeMinutes: -1 },
+      { title: 'Goal', scheduledTimeMinutes: 1440 },
       {
         title: 'Goal',
         scheduleDays: [Weekday.MONDAY, Weekday.MONDAY],

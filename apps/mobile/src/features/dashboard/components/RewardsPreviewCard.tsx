@@ -10,7 +10,7 @@ import { Text } from '@/ui/components/Text';
 import { styles } from './RewardsPreviewCard.styles';
 
 type RewardsPreviewCardProps = {
-  reward: DashboardReward;
+  reward: DashboardReward | null;
 };
 
 export const RewardsPreviewCard = ({ reward }: RewardsPreviewCardProps) => {
@@ -28,34 +28,40 @@ export const RewardsPreviewCard = ({ reward }: RewardsPreviewCardProps) => {
           />
         </View>
       </View>
-      <View style={styles.content}>
-        <View
-          accessibilityLabel={`${reward.title} reward visual`}
-          accessibilityRole="image"
-          style={styles.visual}
-        >
-          <MaterialCommunityIcons
-            color={theme.colors.primary}
-            name="movie-open-outline"
-            size={theme.spacing.xxxl}
-          />
+      {reward ? (
+        <View style={styles.content}>
+          <View
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+            style={styles.visual}
+          >
+            <MaterialCommunityIcons
+              color={theme.colors.primary}
+              name="movie-open-outline"
+              size={theme.spacing.xxxl}
+            />
+          </View>
+          <View style={styles.copy}>
+            <Text variant="bodyStrong">{reward.title}</Text>
+            <ProgressBar
+              accessibilityLabel={`${reward.title} unlock progress: ${reward.currentProgress} of ${reward.targetProgress}`}
+              max={reward.targetProgress}
+              value={reward.currentProgress}
+            />
+            <Text tone="muted" variant="caption">
+              <Text tone="primary" variant="label">
+                {reward.currentProgress}
+              </Text>{' '}
+              / {reward.targetProgress}
+            </Text>
+            <Text tone="muted">{reward.remainingCopy}</Text>
+          </View>
         </View>
-        <View style={styles.copy}>
-          <Text variant="bodyStrong">{reward.title}</Text>
-          <ProgressBar
-            accessibilityLabel={`${reward.title} unlock progress: ${reward.currentProgress} of ${reward.targetProgress}`}
-            max={reward.targetProgress}
-            value={reward.currentProgress}
-          />
-          <Text tone="muted" variant="caption">
-            <Text tone="primary" variant="label">
-              {reward.currentProgress}
-            </Text>{' '}
-            / {reward.targetProgress}
-          </Text>
-          <Text tone="muted">{reward.remainingCopy}</Text>
-        </View>
-      </View>
+      ) : (
+        <Text tone="muted">
+          Add a Reward to a Goal to track its unlock progress here.
+        </Text>
+      )}
     </Card>
   );
 };

@@ -18,6 +18,7 @@ export interface PublicGoal {
   measurementType: GoalMeasurementType;
   targetValue: number | null;
   scheduleDays: Weekday[];
+  scheduledTimeMinutes: number | null;
   status: GoalStatus;
   archivedAt: Date | null;
   hasProgressHistory: boolean;

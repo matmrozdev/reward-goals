@@ -52,20 +52,21 @@ enum Weekday {
 }
 
 model Goal {
-  id              String              @id @default(uuid()) @db.Uuid
-  userId          String              @db.Uuid
-  title           String              @db.VarChar(120)
-  description     String?             @db.VarChar(1000)
-  measurementType GoalMeasurementType @default(COUNT)
-  targetValue     Int?
-  scheduleDays    Weekday[]           @default([])
-  status          GoalStatus          @default(ACTIVE)
-  archivedAt      DateTime?
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
-  user            User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  progressEntries GoalProgressEntry[]
-  reward          GoalReward?
+  id                   String              @id @default(uuid()) @db.Uuid
+  userId               String              @db.Uuid
+  title                String              @db.VarChar(120)
+  description          String?             @db.VarChar(1000)
+  measurementType      GoalMeasurementType @default(COUNT)
+  targetValue          Int?
+  scheduleDays         Weekday[]           @default([])
+  scheduledTimeMinutes Int?
+  status               GoalStatus          @default(ACTIVE)
+  archivedAt           DateTime?
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  user                 User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  progressEntries      GoalProgressEntry[]
+  reward               GoalReward?
 
   @@index([userId])
   @@index([userId, archivedAt])

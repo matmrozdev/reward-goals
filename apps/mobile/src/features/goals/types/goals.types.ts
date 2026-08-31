@@ -28,6 +28,7 @@ export type Goal = {
   progressCount: number;
   reward: GoalReward | null;
   scheduleDays: Weekday[];
+  scheduledTimeMinutes: number | null;
   status: GoalStatus;
   targetValue: number | null;
   title: string;
@@ -36,6 +37,16 @@ export type Goal = {
 
 export type GoalEnvelope = { goal: Goal };
 export type GoalListResponse = { goals: Goal[] };
+
+export type GoalProgressEntry = {
+  createdAt: string;
+  id: string;
+  undoneAt: string | null;
+};
+
+export type GoalProgressMutationResponse = GoalEnvelope & {
+  progressEntry: GoalProgressEntry;
+};
 
 export type GoalRewardInput = {
   requiredProgress: number;

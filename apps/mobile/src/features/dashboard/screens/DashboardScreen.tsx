@@ -1,80 +1,94 @@
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
 import { View } from 'react-native';
 
+import { ApiError } from '@/api/errors';
+import { useAuth } from '@/features/auth/AuthProvider';
 import { DashboardHeader } from '@/features/dashboard/components/DashboardHeader';
 import { GoalsPreviewSection } from '@/features/dashboard/components/GoalsPreviewSection';
 import { RewardsPreviewCard } from '@/features/dashboard/components/RewardsPreviewCard';
 import { TodaySummaryCard } from '@/features/dashboard/components/TodaySummaryCard';
-import type {
-  DashboardGoal,
-  DashboardReward,
-} from '@/features/dashboard/types/dashboard.types';
+import { useDashboardGoalProgressMutation } from '@/features/dashboard/hooks/useDashboardGoalProgressMutation';
+import { useDashboardQuery } from '@/features/dashboard/hooks/useDashboardQuery';
+import type { DashboardGoal } from '@/features/dashboard/types/dashboard.types';
+import { getDashboardRequest } from '@/features/dashboard/utils/get-dashboard-request';
+import {
+  getDashboardGreeting,
+  getDashboardIdentity,
+  mapDashboardGoal,
+  mapDashboardReward,
+} from '@/features/dashboard/utils/map-dashboard-data';
+import { Button } from '@/ui/components/Button';
+import { Card } from '@/ui/components/Card';
 import { FloatingActionButton } from '@/ui/components/FloatingActionButton';
+import { Loader } from '@/ui/components/Loader';
 import { Screen } from '@/ui/components/Screen';
+import { Text } from '@/ui/components/Text';
 
 import { styles } from './DashboardScreen.styles';
 
-const initialGoals: DashboardGoal[] = [
-  {
-    accent: 'primary',
-    completed: true,
-    icon: 'book-open-page-variant',
-    id: 'read-pages',
-    progress: { current: 12, target: 20 },
-    scheduleLabel: 'Today',
-    title: 'Read 20 pages',
-  },
-  {
-    accent: 'success',
-    completed: true,
-    icon: 'shoe-sneaker',
-    id: 'morning-run',
-    progress: { current: 3, target: 5 },
-    scheduleLabel: 'Today',
-    title: 'Morning run',
-  },
-  {
-    accent: 'primary',
-    completed: false,
-    icon: 'chat-processing',
-    id: 'practice-spanish',
-    metadata: '7 day streak',
-    metadataIcon: 'fire',
-    scheduleLabel: 'Today',
-    title: 'Practice Spanish',
-  },
-  {
-    accent: 'primary',
-    completed: false,
-    icon: 'notebook-outline',
-    id: 'journal',
-    metadata: '7:00 PM',
-    metadataIcon: 'clock-outline',
-    scheduleLabel: 'Today',
-    title: 'Journal',
-  },
-];
-
-const movieNightReward: DashboardReward = {
-  currentProgress: 12,
-  id: 'movie-night',
-  remainingCopy: "You're 8 points away from your next reward!",
-  targetProgress: 20,
-  title: 'Movie night',
-};
-
 export const DashboardScreen = () => {
   const router = useRouter();
-  const [goals, setGoals] = useState(initialGoals);
-  const completedCount = goals.filter((goal) => goal.completed).length;
+  const { isUserLoading, retryCurrentUser, user, userError } = useAuth();
+  const request = getDashboardRequest();
+  const dashboardQuery = useDashboardQuery(request);
+  const progressMutation = useDashboardGoalProgressMutation();
+  const dashboardError = dashboardQuery.error
+    ? ApiError.fromUnknown(dashboardQuery.error).message
+    : null;
 
-  const toggleGoal = (goalId: string) => {
-    setGoals((currentGoals) =>
-      currentGoals.map((goal) =>
-        goal.id === goalId ? { ...goal, completed: !goal.completed } : goal,
-      ),
+  if (isUserLoading || dashboardQuery.isPending) {
+    return (
+      <Screen centered>
+        <Loader label="Loading Dashboard" size="large" />
+      </Screen>
     );
+  }
+
+  if (!user || !dashboardQuery.data) {
+    const errorMessage =
+      userError ?? dashboardError ?? 'The Dashboard could not be loaded.';
+
+    return (
+      <Screen centered>
+        <Card padding="large" style={styles.stateCard}>
+          <Text accessibilityRole="alert" tone="danger">
+            {errorMessage}
+          </Text>
+          <Button
+            label="Try again"
+            loading={dashboardQuery.isRefetching}
+            onPress={() => {
+              void Promise.all([retryCurrentUser(), dashboardQuery.refetch()]);
+            }}
+          />
+        </Card>
+      </Screen>
+    );
+  }
+
+  const identity = getDashboardIdentity(user.email);
+  const goals = dashboardQuery.data.today.goals.map(mapDashboardGoal);
+  const reward = dashboardQuery.data.rewardPreview
+    ? mapDashboardReward(dashboardQuery.data.rewardPreview)
+    : null;
+  const mutationError = progressMutation.error
+    ? ApiError.fromUnknown(progressMutation.error).message
+    : null;
+  const toggleGoal = (goal: DashboardGoal) => {
+    if (progressMutation.isPending) {
+      return;
+    }
+
+    if (goal.completed && goal.latestTodayProgressEntryId) {
+      progressMutation.mutate({
+        action: 'undo',
+        goalId: goal.id,
+        progressEntryId: goal.latestTodayProgressEntryId,
+      });
+      return;
+    }
+
+    progressMutation.mutate({ action: 'add', goalId: goal.id });
   };
 
   return (
@@ -84,20 +98,22 @@ export const DashboardScreen = () => {
         safeAreaEdges={['top', 'right', 'left']}
       >
         <DashboardHeader
-          avatarLabel="Alex"
-          greeting="Good morning, Alex"
+          avatarLabel={identity.avatarLabel}
+          greeting={`${getDashboardGreeting(new Date().getHours())}, ${identity.name}`}
           subtitle="Keep your momentum going."
         />
         <TodaySummaryCard
-          completedCount={completedCount}
-          totalCount={goals.length}
+          completedCount={dashboardQuery.data.today.completedCount}
+          totalCount={dashboardQuery.data.today.totalCount}
         />
         <GoalsPreviewSection
+          errorMessage={mutationError}
           goals={goals}
+          isTogglePending={progressMutation.isPending}
           onSeeAll={() => router.push('/goals')}
           onToggleGoal={toggleGoal}
         />
-        <RewardsPreviewCard reward={movieNightReward} />
+        <RewardsPreviewCard reward={reward} />
       </Screen>
       <View pointerEvents="box-none" style={styles.floatingAction}>
         <FloatingActionButton

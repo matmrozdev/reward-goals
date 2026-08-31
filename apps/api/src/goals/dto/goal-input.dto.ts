@@ -6,6 +6,7 @@ import {
   IsArray,
   IsEnum,
   IsInt,
+  Max,
   IsOptional,
   IsString,
   MaxLength,
@@ -69,6 +70,20 @@ export class CreateGoalDto {
   @ArrayUnique()
   @IsEnum(Weekday, { each: true })
   scheduleDays?: Weekday[];
+
+  @ApiPropertyOptional({
+    description: 'Optional local wall-clock minute from midnight.',
+    example: 1140,
+    maximum: 1439,
+    minimum: 0,
+    nullable: true,
+  })
+  @IsOptional()
+  @ValidateIf((_object, value) => value !== null)
+  @IsInt()
+  @Min(0)
+  @Max(1439)
+  scheduledTimeMinutes?: number | null;
 
   @ApiPropertyOptional({ type: GoalRewardInputDto, nullable: true })
   @IsOptional()
