@@ -68,7 +68,18 @@ storage/
 ```
 
 Keep feature-specific persistence in the feature. For example,
-`features/auth/token-storage.ts` may depend on `storage/secure-storage.ts`.
+`features/auth/storage/token-storage.ts` may depend on
+`storage/secure-storage.ts`. Use a feature `storage/` directory when grouping
+the persistence adapter makes its ownership clearer than a loose feature-root
+module.
+
+## Feature sessions
+
+Keep feature-specific session orchestration under
+`features/<feature>/session/` when it coordinates stateful lifecycle behavior
+across multiple modules in that feature. Colocate session unit tests with their
+source. Do not move domain-session behavior into top-level `services/`,
+`storage/`, or `providers/` merely because it integrates those mechanisms.
 
 ## Services
 
@@ -105,13 +116,18 @@ dumping ground.
 
 ## Providers
 
-Use `providers/` for application-level provider composition:
+Use top-level `providers/` for application-level provider composition and
+application-scoped context providers that expose state across feature
+boundaries:
 
 ```text
 providers/
 ├── AppProviders.tsx
+├── AuthProvider.tsx
 └── QueryProvider.tsx
 ```
 
-Keep feature-owned providers in their feature. For example, place
-`AuthProvider.tsx` in `features/auth/` when authentication owns it.
+Keep a provider in `features/<feature>/providers/` when its lifecycle and
+consumers are confined to that feature subtree. Mounting a provider through
+`AppProviders` alone does not determine ownership; application-wide consumers
+and state coordination justify top-level provider ownership.

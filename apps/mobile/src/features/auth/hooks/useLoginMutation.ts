@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRef } from 'react';
 
 import { authApi } from '@/features/auth/api/auth.api';
-import { useAuth } from '@/features/auth/AuthProvider';
+import { useAuth } from '@/providers/AuthProvider';
 import type { AuthCredentials } from '@/features/auth/types/auth.types';
 
 export const useLoginMutation = () => {

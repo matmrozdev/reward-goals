@@ -6,7 +6,7 @@ import { Loader } from '@/ui/components/Loader';
 import { Screen } from '@/ui/components/Screen';
 import { Text } from '@/ui/components/Text';
 
-import { useAuth } from '@/features/auth/AuthProvider';
+import { useAuth } from '@/providers/AuthProvider';
 import { styles } from './SessionRestoreScreen.styles';
 
 export const SessionRestoreScreen = () => {

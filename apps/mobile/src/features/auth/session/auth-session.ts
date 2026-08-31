@@ -2,9 +2,9 @@ import { ApiError } from '@/api/errors';
 
 import { apiClient } from '@/api/client';
 
-import { authApi } from './api/auth.api';
-import { refreshTokenStorage } from './token-storage';
-import type { AuthTokens } from './types/auth.types';
+import { authApi } from '@/features/auth/api/auth.api';
+import { refreshTokenStorage } from '@/features/auth/storage/token-storage';
+import type { AuthTokens } from '@/features/auth/types/auth.types';
 
 let accessToken: string | null = null;
 let refreshPromise: Promise<boolean> | undefined;

@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 
-import { useAuth } from '@/features/auth/AuthProvider';
+import { useAuth } from '@/providers/AuthProvider';
 import { SessionRestoreScreen } from '@/features/auth/screens/SessionRestoreScreen';
 
 export const AuthNavigator = () => {

@@ -12,9 +12,16 @@ import {
 
 import { ApiError } from '@/api/errors';
 
-import { authKeys, currentUserQueryOptions } from './api/auth.queries';
-import { clearSession, establishSession, refreshSession } from './auth-session';
-import type { AuthSession, AuthUser } from './types/auth.types';
+import {
+  authKeys,
+  currentUserQueryOptions,
+} from '@/features/auth/api/auth.queries';
+import {
+  clearSession,
+  establishSession,
+  refreshSession,
+} from '@/features/auth/session/auth-session';
+import type { AuthSession, AuthUser } from '@/features/auth/types/auth.types';
 
 type AuthStatus =
   'authenticated' | 'restoring' | 'restore-error' | 'unauthenticated';
