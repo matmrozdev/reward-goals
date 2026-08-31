@@ -26,6 +26,7 @@ const publicGoalSelect = {
   measurementType: true,
   targetValue: true,
   scheduleDays: true,
+  scheduledTimeMinutes: true,
   status: true,
   archivedAt: true,
   reward: {
@@ -65,6 +66,7 @@ export class GoalsService {
         description: input.description ?? null,
         targetValue: input.targetValue ?? null,
         scheduleDays: canonicalizeSchedule(input.scheduleDays),
+        scheduledTimeMinutes: input.scheduledTimeMinutes ?? null,
         reward: input.reward
           ? {
               create: {
@@ -157,6 +159,7 @@ export class GoalsService {
             input.scheduleDays === undefined
               ? undefined
               : canonicalizeSchedule(input.scheduleDays),
+          scheduledTimeMinutes: input.scheduledTimeMinutes,
         },
       });
 
@@ -467,6 +470,7 @@ function toPublicGoal(goal: SelectedGoal): PublicGoal {
     measurementType: goal.measurementType,
     targetValue: goal.targetValue,
     scheduleDays: goal.scheduleDays,
+    scheduledTimeMinutes: goal.scheduledTimeMinutes,
     status: goal.status,
     archivedAt: goal.archivedAt,
     hasProgressHistory: goal.progressEntries.length > 0,

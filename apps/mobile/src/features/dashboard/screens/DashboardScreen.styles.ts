@@ -18,4 +18,8 @@ export const styles = StyleSheet.create((theme) => ({
     position: 'absolute',
     right: theme.spacing.xl,
   },
+  stateCard: {
+    gap: theme.spacing.lg,
+    width: '100%',
+  },
 }));

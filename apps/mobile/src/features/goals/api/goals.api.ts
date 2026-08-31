@@ -4,6 +4,7 @@ import type {
   CreateGoalInput,
   GoalEnvelope,
   GoalListResponse,
+  GoalProgressMutationResponse,
   UpdateGoalInput,
 } from '@/features/goals/types/goals.types';
 
@@ -32,11 +33,27 @@ export const goalsApi = {
     apiClient.request<GoalListResponse>('/goals', {
       authenticated: true,
     }),
+  addProgress: (goalId: string) =>
+    apiClient.request<GoalProgressMutationResponse>(
+      `/goals/${goalId}/progress`,
+      {
+        authenticated: true,
+        method: 'POST',
+      },
+    ),
   unarchive: (goalId: string) =>
     apiClient.request<GoalEnvelope>(`/goals/${goalId}/unarchive`, {
       authenticated: true,
       method: 'POST',
     }),
+  undoProgress: (goalId: string, progressEntryId: string) =>
+    apiClient.request<GoalProgressMutationResponse>(
+      `/goals/${goalId}/progress/${progressEntryId}/undo`,
+      {
+        authenticated: true,
+        method: 'POST',
+      },
+    ),
   update: (goalId: string, input: UpdateGoalInput) =>
     apiClient.request<GoalEnvelope>(`/goals/${goalId}`, {
       authenticated: true,

@@ -1,3 +1,5 @@
+import type { Weekday } from '@/features/goals/types/goals.types';
+
 export type DashboardAccent = 'primary' | 'success';
 
 export type DashboardGoalIcon =
@@ -11,6 +13,7 @@ export type DashboardGoal = {
   completed: boolean;
   icon: DashboardGoalIcon;
   id: string;
+  latestTodayProgressEntryId: string | null;
   metadata?: string;
   metadataIcon?: 'clock-outline' | 'fire';
   progress?: {
@@ -27,4 +30,40 @@ export type DashboardReward = {
   remainingCopy: string;
   targetProgress: number;
   title: string;
+};
+
+export type DashboardRequest = {
+  date: string;
+  timeZone: string;
+};
+
+export type DashboardGoalResponse = {
+  hasProgressToday: boolean;
+  id: string;
+  latestTodayProgressEntryId: string | null;
+  progressCount: number;
+  scheduleDays: Weekday[];
+  scheduledTimeMinutes: number | null;
+  targetValue: number | null;
+  title: string;
+};
+
+export type DashboardRewardResponse = {
+  currentProgress: number;
+  goalId: string;
+  id: string;
+  remainingProgress: number;
+  requiredProgress: number;
+  title: string;
+  unlockedAt: string | null;
+};
+
+export type DashboardResponse = {
+  rewardPreview: DashboardRewardResponse | null;
+  today: {
+    completedCount: number;
+    date: string;
+    goals: DashboardGoalResponse[];
+    totalCount: number;
+  };
 };

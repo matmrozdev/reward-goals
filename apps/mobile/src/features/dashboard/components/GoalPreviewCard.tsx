@@ -10,16 +10,21 @@ import { Text } from '@/ui/components/Text';
 import { styles } from './GoalPreviewCard.styles';
 
 type GoalPreviewCardProps = {
+  disabled?: boolean;
   goal: DashboardGoal;
-  onToggle: (goalId: string) => void;
+  onToggle: (goal: DashboardGoal) => void;
 };
 
-export const GoalPreviewCard = ({ goal, onToggle }: GoalPreviewCardProps) => {
+export const GoalPreviewCard = ({
+  disabled = false,
+  goal,
+  onToggle,
+}: GoalPreviewCardProps) => {
   const { theme } = useUnistyles();
   const accentColor =
     goal.accent === 'success' ? theme.colors.success : theme.colors.primary;
   const handleToggle = () => {
-    onToggle(goal.id);
+    onToggle(goal);
   };
 
   return (
@@ -76,9 +81,13 @@ export const GoalPreviewCard = ({ goal, onToggle }: GoalPreviewCardProps) => {
       <Pressable
         accessibilityLabel={`${goal.completed ? 'Undo completion for' : 'Mark as done'} ${goal.title}`}
         accessibilityRole="checkbox"
-        accessibilityState={{ checked: goal.completed }}
+        accessibilityState={{ checked: goal.completed, disabled }}
+        disabled={disabled}
         onPress={handleToggle}
-        style={styles.statusAction(goal.completed, goal.accent)}
+        style={[
+          styles.statusAction(goal.completed, goal.accent),
+          disabled && styles.statusActionDisabled,
+        ]}
       >
         {goal.completed ? (
           <MaterialCommunityIcons

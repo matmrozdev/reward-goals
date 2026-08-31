@@ -51,4 +51,7 @@ export const styles = StyleSheet.create((theme) => ({
       width: theme.sizes.minTouchTarget,
     };
   },
+  statusActionDisabled: {
+    opacity: 0.56,
+  },
 }));

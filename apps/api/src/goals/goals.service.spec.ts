@@ -20,6 +20,7 @@ describe('GoalsService', () => {
     measurementType: GoalMeasurementType.COUNT,
     targetValue: 3,
     scheduleDays: [Weekday.MONDAY, Weekday.WEDNESDAY],
+    scheduledTimeMinutes: 420,
     status: GoalStatus.ACTIVE,
     archivedAt: null,
     reward: {
@@ -77,6 +78,7 @@ describe('GoalsService', () => {
       title: 'Read consistently',
       targetValue: 3,
       scheduleDays: [Weekday.WEDNESDAY, Weekday.MONDAY],
+      scheduledTimeMinutes: 420,
       reward: { title: 'Enjoy a new book', requiredProgress: 2 },
     });
 
@@ -88,6 +90,7 @@ describe('GoalsService', () => {
           description: null,
           targetValue: 3,
           scheduleDays: [Weekday.MONDAY, Weekday.WEDNESDAY],
+          scheduledTimeMinutes: 420,
           reward: {
             create: {
               title: 'Enjoy a new book',
@@ -190,6 +193,7 @@ describe('GoalsService', () => {
     await service.update(userId, goalId, {
       title: 'Updated title',
       scheduleDays: [Weekday.SUNDAY, Weekday.TUESDAY],
+      scheduledTimeMinutes: 1140,
     });
 
     expect(transaction.goal.update).toHaveBeenCalledWith({
@@ -199,6 +203,7 @@ describe('GoalsService', () => {
         description: undefined,
         targetValue: undefined,
         scheduleDays: [Weekday.TUESDAY, Weekday.SUNDAY],
+        scheduledTimeMinutes: 1140,
       },
     });
     expect(transaction.goalReward.upsert).not.toHaveBeenCalled();
