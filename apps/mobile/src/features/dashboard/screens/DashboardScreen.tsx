@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 
@@ -16,6 +17,7 @@ import {
   mapDashboardGoal,
   mapDashboardReward,
 } from '@/features/dashboard/utils/map-dashboard-data';
+import { GoalFormSheet } from '@/features/goals/components/GoalFormSheet';
 import { useAuth } from '@/providers/AuthProvider';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
@@ -28,6 +30,7 @@ import { styles } from './DashboardScreen.styles';
 
 export const DashboardScreen = () => {
   const router = useRouter();
+  const [isGoalFormVisible, setIsGoalFormVisible] = useState(false);
   const { isUserLoading, retryCurrentUser, user, userError } = useAuth();
   const request = getDashboardRequest();
   const dashboardQuery = useDashboardQuery(request);
@@ -122,11 +125,15 @@ export const DashboardScreen = () => {
       </Screen>
       <View pointerEvents="box-none" style={styles.floatingAction}>
         <FloatingActionButton
-          accessibilityHint="Opens the create Goal screen"
+          accessibilityHint="Opens the create Goal form"
           accessibilityLabel="Add Goal"
-          onPress={() => router.push('/goals/new')}
+          onPress={() => setIsGoalFormVisible(true)}
         />
       </View>
+      <GoalFormSheet
+        onClose={() => setIsGoalFormVisible(false)}
+        visible={isGoalFormVisible}
+      />
     </View>
   );
 };

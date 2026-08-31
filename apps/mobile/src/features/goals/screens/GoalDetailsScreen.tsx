@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { ApiError } from '@/api/errors';
+import { GoalFormSheet } from '@/features/goals/components/GoalFormSheet';
 import { GoalProgress } from '@/features/goals/components/GoalProgress';
 import { useGoalQuery } from '@/features/goals/hooks/useGoalQuery';
 import {
@@ -20,7 +21,6 @@ import { styles } from './GoalDetailsScreen.styles';
 type GoalDetailsScreenProps = {
   goalId: string;
   onBack: () => void;
-  onEdit: () => void;
   successMessage?: string;
 };
 
@@ -45,13 +45,13 @@ const statusLabels = {
 export const GoalDetailsScreen = ({
   goalId,
   onBack,
-  onEdit,
   successMessage,
 }: GoalDetailsScreenProps) => {
   const goalQuery = useGoalQuery(goalId);
   const lifecycleMutation = useGoalLifecycleMutation();
   const [confirmationAction, setConfirmationAction] =
     useState<GoalLifecycleAction | null>(null);
+  const [isGoalFormVisible, setIsGoalFormVisible] = useState(false);
   const [lifecycleSuccess, setLifecycleSuccess] = useState<string | null>(null);
   const goal = goalQuery.data;
   const errorMessage = goalQuery.error
@@ -186,7 +186,7 @@ export const GoalDetailsScreen = ({
         <Button
           disabled={lifecycleMutation.isPending}
           label="Edit Goal"
-          onPress={onEdit}
+          onPress={() => setIsGoalFormVisible(true)}
           variant="secondary"
         />
         <Button
@@ -231,6 +231,12 @@ export const GoalDetailsScreen = ({
           />
         </Card>
       ) : null}
+      <GoalFormSheet
+        goal={goal}
+        onClose={() => setIsGoalFormVisible(false)}
+        onSuccess={() => setLifecycleSuccess('Goal updated.')}
+        visible={isGoalFormVisible}
+      />
     </Screen>
   );
 };

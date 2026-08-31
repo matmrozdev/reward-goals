@@ -10,7 +10,6 @@ import {
 } from '@/features/goals/utils/goal-form-schema';
 import { getGoalFormValues } from '@/features/goals/utils/map-goal-form-values';
 import { Button } from '@/ui/components/Button';
-import { Card } from '@/ui/components/Card';
 import { Text } from '@/ui/components/Text';
 import { TextInput } from '@/ui/components/TextInput';
 
@@ -59,7 +58,7 @@ export const GoalForm = ({
   const submit = handleSubmit((values) => onSubmit(values, coreSettingsLocked));
 
   return (
-    <Card padding="large" style={styles.card}>
+    <View style={styles.form}>
       {serverError ? (
         <Text accessibilityRole="alert" tone="danger">
           {serverError}
@@ -249,6 +248,6 @@ export const GoalForm = ({
           variant="ghost"
         />
       </View>
-    </Card>
+    </View>
   );
 };

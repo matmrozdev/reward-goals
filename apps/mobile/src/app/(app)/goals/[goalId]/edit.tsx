@@ -1,6 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
-
-import { GoalFormScreen } from '@/features/goals/screens/GoalFormScreen';
+import { Redirect, type Href, useLocalSearchParams } from 'expo-router';
 
 export default function EditGoalRoute() {
   const { goalId } = useLocalSearchParams<{ goalId?: string | string[] }>();
@@ -8,5 +6,9 @@ export default function EditGoalRoute() {
     ? (goalId[0] ?? '')
     : (goalId ?? '');
 
-  return <GoalFormScreen goalId={resolvedGoalId} />;
+  const destination = resolvedGoalId
+    ? (`/goals/${resolvedGoalId}` as Href)
+    : ('/goals' as Href);
+
+  return <Redirect href={destination} />;
 }

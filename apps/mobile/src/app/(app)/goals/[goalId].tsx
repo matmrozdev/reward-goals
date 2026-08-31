@@ -1,4 +1,4 @@
-import { type Href, useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import { GoalDetailsScreen } from '@/features/goals/screens/GoalDetailsScreen';
 
@@ -17,7 +17,6 @@ export default function GoalDetailsRoute() {
     <GoalDetailsScreen
       goalId={resolvedGoalId}
       onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-      onEdit={() => router.push(`/goals/${resolvedGoalId}/edit` as Href)}
       successMessage={
         created ? 'Goal created.' : updated ? 'Goal updated.' : undefined
       }
