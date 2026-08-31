@@ -11,9 +11,6 @@ export const styles = StyleSheet.create((theme) => ({
     flex: 1,
     gap: theme.spacing.md,
   },
-  countCopy: {
-    flexShrink: 1,
-  },
   countRow: {
     alignItems: 'baseline',
     flexDirection: 'row',

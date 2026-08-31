@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { dashboardKeys } from '@/features/dashboard/api/dashboard.queries';
 import { goalsApi } from '@/features/goals/api/goals.api';
 import { goalKeys } from '@/features/goals/api/goals.queries';
 
@@ -8,9 +9,12 @@ export const useCreateGoalMutation = () => {
 
   return useMutation({
     mutationFn: goalsApi.create,
-    onSuccess: ({ goal }) => {
+    onSuccess: async ({ goal }) => {
       queryClient.setQueryData(goalKeys.detail(goal.id), goal);
-      void queryClient.invalidateQueries({ queryKey: goalKeys.list() });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: dashboardKeys.all }),
+        queryClient.invalidateQueries({ queryKey: goalKeys.list() }),
+      ]);
     },
   });
 };

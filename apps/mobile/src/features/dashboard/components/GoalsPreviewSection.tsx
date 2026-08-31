@@ -13,7 +13,7 @@ type GoalsPreviewSectionProps = {
   goals: DashboardGoal[];
   isTogglePending?: boolean;
   onSeeAll: () => void;
-  onToggleGoal: (goal: DashboardGoal) => void;
+  onToggleGoal: (goal: DashboardGoal) => Promise<boolean>;
 };
 
 export const GoalsPreviewSection = ({

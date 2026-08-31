@@ -1,8 +1,18 @@
+import { useEffect } from 'react';
 import { View } from 'react-native';
+import Animated, {
+  Easing,
+  ReduceMotion,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { normalizeProgress } from '@/ui/utils/normalize-progress';
 
 import { styles } from './ProgressBar.styles';
+
+const progressAnimationDuration = 450;
 
 export type ProgressBarTone = 'primary' | 'success';
 
@@ -20,6 +30,19 @@ export const ProgressBar = ({
   value,
 }: ProgressBarProps) => {
   const progress = normalizeProgress({ max, value });
+  const animatedFraction = useSharedValue(0);
+
+  const animatedFillStyle = useAnimatedStyle(() => ({
+    width: `${animatedFraction.value * 100}%` as `${number}%`,
+  }));
+
+  useEffect(() => {
+    animatedFraction.value = withTiming(progress.fraction, {
+      duration: progressAnimationDuration,
+      easing: Easing.out(Easing.cubic),
+      reduceMotion: ReduceMotion.System,
+    });
+  }, [animatedFraction, progress.fraction]);
 
   return (
     <View
@@ -28,7 +51,7 @@ export const ProgressBar = ({
       accessibilityValue={{ max: progress.max, min: 0, now: progress.value }}
       style={styles.track}
     >
-      <View style={styles.fill(progress.fraction, tone)} />
+      <Animated.View style={[styles.fill(tone), animatedFillStyle]} />
     </View>
   );
 };

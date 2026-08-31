@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-import type { DashboardAccent } from '@/features/dashboard/types/dashboard.types';
 import { space } from '@/theme';
 
 export const styles = StyleSheet.create((theme) => ({
@@ -35,23 +34,5 @@ export const styles = StyleSheet.create((theme) => ({
     gap: theme.spacing.xs,
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: theme.spacing.xs,
-  },
-  statusAction: (completed: boolean, accent: DashboardAccent) => {
-    const accentColor =
-      accent === 'success' ? theme.colors.success : theme.colors.primary;
-
-    return {
-      alignItems: 'center',
-      backgroundColor: completed ? accentColor : theme.colors.surface,
-      borderColor: accentColor,
-      borderRadius: theme.borderRadius.pill,
-      borderWidth: theme.sizes.borderWidth * 2,
-      height: theme.sizes.minTouchTarget,
-      justifyContent: 'center',
-      width: theme.sizes.minTouchTarget,
-    };
-  },
-  statusActionDisabled: {
-    opacity: 0.56,
   },
 }));

@@ -24,12 +24,14 @@ export const TodaySummaryCard = ({
       <View style={styles.copy}>
         <Text variant="title">Today</Text>
         <View style={styles.countRow}>
-          <Text tone="primary" variant="heading">
+          <Text tone="primary" variant="title">
             {completedCount}
           </Text>
-          <Text style={styles.countCopy} variant="title">
-            of {totalCount} done
+          <Text variant="title">of</Text>
+          <Text tone="primary" variant="title">
+            {totalCount}
           </Text>
+          <Text variant="title">done</Text>
         </View>
       </View>
       <CircularProgress
