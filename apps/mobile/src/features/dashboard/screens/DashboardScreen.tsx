@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 
@@ -8,7 +9,6 @@ import { RewardsPreviewCard } from '@/features/dashboard/components/RewardsPrevi
 import { TodaySummaryCard } from '@/features/dashboard/components/TodaySummaryCard';
 import { useDashboardGoalProgressMutation } from '@/features/dashboard/hooks/useDashboardGoalProgressMutation';
 import { useDashboardQuery } from '@/features/dashboard/hooks/useDashboardQuery';
-import type { DashboardGoal } from '@/features/dashboard/types/dashboard.types';
 import { getDashboardRequest } from '@/features/dashboard/utils/get-dashboard-request';
 import {
   getDashboardGreeting,
@@ -16,6 +16,8 @@ import {
   mapDashboardGoal,
   mapDashboardReward,
 } from '@/features/dashboard/utils/map-dashboard-data';
+import { GoalFormSheet } from '@/features/goals/sheets/GoalFormSheet';
+import type { GoalPreview } from '@/features/goals/types/goal-preview.types';
 import { useAuth } from '@/providers/AuthProvider';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
@@ -28,6 +30,7 @@ import { styles } from './DashboardScreen.styles';
 
 export const DashboardScreen = () => {
   const router = useRouter();
+  const [isGoalFormVisible, setIsGoalFormVisible] = useState(false);
   const { isUserLoading, retryCurrentUser, user, userError } = useAuth();
   const request = getDashboardRequest();
   const dashboardQuery = useDashboardQuery(request);
@@ -74,7 +77,7 @@ export const DashboardScreen = () => {
   const mutationError = progressMutation.error
     ? ApiError.fromUnknown(progressMutation.error).message
     : null;
-  const toggleGoal = async (goal: DashboardGoal) => {
+  const toggleGoal = async (goal: GoalPreview) => {
     if (progressMutation.isPending) {
       return false;
     }
@@ -122,11 +125,15 @@ export const DashboardScreen = () => {
       </Screen>
       <View pointerEvents="box-none" style={styles.floatingAction}>
         <FloatingActionButton
-          accessibilityHint="Opens the create Goal screen"
+          accessibilityHint="Opens the create Goal form"
           accessibilityLabel="Add Goal"
-          onPress={() => router.push('/goals/new')}
+          onPress={() => setIsGoalFormVisible(true)}
         />
       </View>
+      <GoalFormSheet
+        onClose={() => setIsGoalFormVisible(false)}
+        visible={isGoalFormVisible}
+      />
     </View>
   );
 };

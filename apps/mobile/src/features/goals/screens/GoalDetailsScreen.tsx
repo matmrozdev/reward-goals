@@ -8,7 +8,9 @@ import {
   type GoalLifecycleAction,
   useGoalLifecycleMutation,
 } from '@/features/goals/hooks/useGoalLifecycleMutation';
+import { GoalFormSheet } from '@/features/goals/sheets/GoalFormSheet';
 import { formatGoalSchedule } from '@/features/goals/utils/format-goal-schedule';
+import { BackButton } from '@/ui/components/BackButton';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
 import { Loader } from '@/ui/components/Loader';
@@ -20,7 +22,6 @@ import { styles } from './GoalDetailsScreen.styles';
 type GoalDetailsScreenProps = {
   goalId: string;
   onBack: () => void;
-  onEdit: () => void;
   successMessage?: string;
 };
 
@@ -45,13 +46,13 @@ const statusLabels = {
 export const GoalDetailsScreen = ({
   goalId,
   onBack,
-  onEdit,
   successMessage,
 }: GoalDetailsScreenProps) => {
   const goalQuery = useGoalQuery(goalId);
   const lifecycleMutation = useGoalLifecycleMutation();
   const [confirmationAction, setConfirmationAction] =
     useState<GoalLifecycleAction | null>(null);
+  const [isGoalFormVisible, setIsGoalFormVisible] = useState(false);
   const [lifecycleSuccess, setLifecycleSuccess] = useState<string | null>(null);
   const goal = goalQuery.data;
   const errorMessage = goalQuery.error
@@ -123,7 +124,7 @@ export const GoalDetailsScreen = ({
   return (
     <Screen contentContainerStyle={styles.content}>
       <View style={styles.navigationRow}>
-        <Button label="Back" onPress={onBack} size="small" variant="ghost" />
+        <BackButton onPress={onBack} />
         <Button
           label="Reload"
           loading={goalQuery.isRefetching}
@@ -186,7 +187,7 @@ export const GoalDetailsScreen = ({
         <Button
           disabled={lifecycleMutation.isPending}
           label="Edit Goal"
-          onPress={onEdit}
+          onPress={() => setIsGoalFormVisible(true)}
           variant="secondary"
         />
         <Button
@@ -231,6 +232,12 @@ export const GoalDetailsScreen = ({
           />
         </Card>
       ) : null}
+      <GoalFormSheet
+        goal={goal}
+        onClose={() => setIsGoalFormVisible(false)}
+        onSuccess={() => setLifecycleSuccess('Goal updated.')}
+        visible={isGoalFormVisible}
+      />
     </Screen>
   );
 };

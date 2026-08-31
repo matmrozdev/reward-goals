@@ -1,6 +1,6 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useRef, useState } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Animated, {
   Easing,
   Extrapolation,
@@ -15,7 +15,7 @@ import Animated, {
 import { Circle, Svg } from 'react-native-svg';
 import { useUnistyles } from 'react-native-unistyles';
 
-import type { DashboardAccent } from '@/features/dashboard/types/dashboard.types';
+import type { GoalAccent } from '@/features/goals/types/goal-preview.types';
 
 import { styles } from './GoalStatusAction.styles';
 
@@ -24,11 +24,11 @@ const completionAnimationDuration = 720;
 const undoAnimationDuration = 220;
 
 type GoalStatusActionProps = {
-  accent: DashboardAccent;
+  accent: GoalAccent;
   accessibilityLabel: string;
   completed: boolean;
   disabled?: boolean;
-  onPress: () => Promise<boolean>;
+  onPress?: () => Promise<boolean>;
 };
 
 export const GoalStatusAction = ({
@@ -102,14 +102,15 @@ export const GoalStatusAction = ({
   }));
 
   const sparkleAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: visualCompleted
-      ? interpolate(
-          completionProgress.value,
-          [0.52, 0.66, 0.84, 1],
-          [0, 1, 1, 0],
-          Extrapolation.CLAMP,
-        )
-      : 0,
+    opacity:
+      visualCompleted && onPress
+        ? interpolate(
+            completionProgress.value,
+            [0.52, 0.66, 0.84, 1],
+            [0, 1, 1, 0],
+            Extrapolation.CLAMP,
+          )
+        : 0,
     transform: [
       {
         scale: interpolate(
@@ -123,7 +124,7 @@ export const GoalStatusAction = ({
   }));
 
   const handlePress = async () => {
-    if (interactionPending.current) {
+    if (!onPress || interactionPending.current) {
       return;
     }
 
@@ -155,21 +156,8 @@ export const GoalStatusAction = ({
     }
   };
 
-  return (
-    <Pressable
-      accessibilityLabel={accessibilityLabel}
-      accessibilityRole="checkbox"
-      accessibilityState={{
-        checked: visualCompleted,
-        disabled: isActionDisabled,
-      }}
-      disabled={isActionDisabled}
-      onPress={() => void handlePress()}
-      style={[
-        styles.action,
-        disabled && !isAnimationPending && styles.disabled,
-      ]}
-    >
+  const content = (
+    <>
       <Svg
         accessibilityElementsHidden
         height={actionSize}
@@ -232,6 +220,37 @@ export const GoalStatusAction = ({
           style={styles.sparkleBottomLeft}
         />
       </Animated.View>
+    </>
+  );
+
+  if (!onPress) {
+    return (
+      <View
+        accessibilityLabel={accessibilityLabel}
+        accessibilityRole="image"
+        style={styles.action}
+      >
+        {content}
+      </View>
+    );
+  }
+
+  return (
+    <Pressable
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole="checkbox"
+      accessibilityState={{
+        checked: visualCompleted,
+        disabled: isActionDisabled,
+      }}
+      disabled={isActionDisabled}
+      onPress={() => void handlePress()}
+      style={[
+        styles.action,
+        disabled && !isAnimationPending && styles.disabled,
+      ]}
+    >
+      {content}
     </Pressable>
   );
 };

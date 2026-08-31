@@ -1,5 +1,5 @@
-import { GoalFormScreen } from '@/features/goals/screens/GoalFormScreen';
+import { Redirect } from 'expo-router';
 
 export default function NewGoalRoute() {
-  return <GoalFormScreen />;
+  return <Redirect href="/" />;
 }

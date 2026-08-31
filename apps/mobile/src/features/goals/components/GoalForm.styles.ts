@@ -4,7 +4,7 @@ export const styles = StyleSheet.create((theme) => ({
   actions: {
     gap: theme.spacing.sm,
   },
-  card: {
+  form: {
     gap: theme.spacing.xl,
   },
   options: {

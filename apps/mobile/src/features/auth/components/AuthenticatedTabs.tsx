@@ -24,7 +24,7 @@ export const AuthenticatedTabs = () => {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="(goals)"
         options={{
           tabBarAccessibilityLabel: 'Goals tab',
           tabBarIcon: ({ color, size }) => (

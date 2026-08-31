@@ -21,7 +21,7 @@ export const AuthenticatedTabs = () => {
     >
       <NativeTabs.Trigger
         accessibilityLabel="Goals tab"
-        name="index"
+        name="(goals)"
         testID="goals-tab"
       >
         <NativeTabs.Trigger.Icon sf="target" md="target" />
