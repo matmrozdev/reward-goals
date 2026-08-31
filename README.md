@@ -15,10 +15,17 @@ workflow.
 
 ## Current progress
 
-The project is in its foundation phase. The monorepo, Expo mobile application,
-NestJS API, environment validation, Prisma integration, PostgreSQL database, and
-Docker-based local database are in place. Authentication is the next major
-product milestone, followed by goals, progress tracking, and rewards.
+The functional MVP is complete. Reward Goals now includes authenticated account
+creation and session restoration, user-owned finite and ongoing Goals, optional
+weekday schedules and Rewards, historical count-based progress with undo,
+authoritative Goal and Reward state, and a date-aware mobile Dashboard backed by
+the NestJS API and PostgreSQL database.
+
+The next phase focuses on quality and release readiness: broader automated
+validation, native-device acceptance testing, production deployment,
+observability, and distribution configuration. Advanced recurrence, additional
+progress measurement types, notification delivery, repeatable Rewards, and
+Reward claiming remain outside the current MVP.
 
 Detailed work is tracked through [GitHub Issues](https://github.com/matmrozdev/reward-goals/issues)
 and the [project Wiki](https://github.com/matmrozdev/reward-goals/wiki).
