@@ -1,7 +1,8 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { useUnistyles } from 'react-native-unistyles';
 
+import { GoalStatusAction } from '@/features/dashboard/components/GoalStatusAction';
 import type { DashboardGoal } from '@/features/dashboard/types/dashboard.types';
 import { Card } from '@/ui/components/Card';
 import { ProgressBar } from '@/ui/components/ProgressBar';
@@ -12,7 +13,7 @@ import { styles } from './GoalPreviewCard.styles';
 type GoalPreviewCardProps = {
   disabled?: boolean;
   goal: DashboardGoal;
-  onToggle: (goal: DashboardGoal) => void;
+  onToggle: (goal: DashboardGoal) => Promise<boolean>;
 };
 
 export const GoalPreviewCard = ({
@@ -23,9 +24,7 @@ export const GoalPreviewCard = ({
   const { theme } = useUnistyles();
   const accentColor =
     goal.accent === 'success' ? theme.colors.success : theme.colors.primary;
-  const handleToggle = () => {
-    onToggle(goal);
-  };
+  const handleToggle = () => onToggle(goal);
 
   return (
     <Card padding="medium" style={styles.card} variant="elevated">
@@ -78,25 +77,13 @@ export const GoalPreviewCard = ({
           </Text>
         </View>
       </View>
-      <Pressable
+      <GoalStatusAction
+        accent={goal.accent}
         accessibilityLabel={`${goal.completed ? 'Undo completion for' : 'Mark as done'} ${goal.title}`}
-        accessibilityRole="checkbox"
-        accessibilityState={{ checked: goal.completed, disabled }}
+        completed={goal.completed}
         disabled={disabled}
         onPress={handleToggle}
-        style={[
-          styles.statusAction(goal.completed, goal.accent),
-          disabled && styles.statusActionDisabled,
-        ]}
-      >
-        {goal.completed ? (
-          <MaterialCommunityIcons
-            color={theme.colors.onPrimary}
-            name="check"
-            size={theme.spacing.xl}
-          />
-        ) : null}
-      </Pressable>
+      />
     </Card>
   );
 };

@@ -70,6 +70,16 @@ decisions with the component rather than promoting them into the theme.
 
 ## Animations
 
+Use `react-native-reanimated` as the standard runtime for mobile visual
+animations. Do not mix it with React Native `Animated`, ad hoc JavaScript-frame
+animation, or another animation runtime within the application unless a
+platform or library constraint requires an exception and the reason is
+documented next to the owning implementation.
+
+The conventional `Animated` default import is acceptable only when it comes
+from `react-native-reanimated`; do not interpret that import name as use of the
+React Native `Animated` runtime.
+
 Keep animation definitions that are primarily visual close to styling when
 technically appropriate. Visual animation styles and constants may live in
 `ComponentName.styles.ts`.

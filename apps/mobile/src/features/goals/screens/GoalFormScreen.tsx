@@ -93,8 +93,7 @@ export const GoalFormScreen = ({ goalId = '' }: GoalFormScreenProps) => {
           } else {
             const input = mapGoalFormValues(values, false);
             createMutation.mutate(input, {
-              onSuccess: ({ goal }) =>
-                router.replace(`/goals/${goal.id}?created=1` as Href),
+              onSuccess: () => router.replace('/'),
             });
           }
         }}

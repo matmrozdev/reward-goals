@@ -16,9 +16,9 @@ export const useDashboardGoalProgressMutation = () => {
       variables.action === 'add'
         ? goalsApi.addProgress(variables.goalId)
         : goalsApi.undoProgress(variables.goalId, variables.progressEntryId),
-    onSuccess: ({ goal }) => {
+    onSuccess: async ({ goal }) => {
       queryClient.setQueryData(goalKeys.detail(goal.id), goal);
-      void Promise.all([
+      await Promise.all([
         queryClient.invalidateQueries({ queryKey: dashboardKeys.all }),
         queryClient.invalidateQueries({ queryKey: goalKeys.list() }),
       ]);

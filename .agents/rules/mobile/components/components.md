@@ -83,6 +83,16 @@ separate type file for one component's props.
 Place domain types shared by a feature in
 `features/<feature>/types/<domain>.types.ts`.
 
+## Local readability
+
+Group short, tightly related declarations together. Separate substantial
+multiline `const` declarations, hook results, and callbacks from adjacent
+declarations with a blank line so each logical block is visually distinct.
+
+Prettier preserves these intentional blank lines but does not infer semantic
+grouping. Do not enable a blanket rule that separates every pair of `const`
+declarations merely to automate this convention.
+
 ## Exports and barrels
 
 Use named exports for regular components. Reserve default exports for Expo

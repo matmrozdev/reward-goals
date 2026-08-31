@@ -1,15 +1,6 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-type SegmentStyleProps = {
-  active: boolean;
-  height: number;
-  left: number;
-  rotation: string;
-  top: number;
-  width: number;
-};
-
-export const styles = StyleSheet.create((theme) => ({
+export const styles = StyleSheet.create({
   container: (size: number) => ({
     alignItems: 'center',
     height: size,
@@ -21,21 +12,7 @@ export const styles = StyleSheet.create((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  segment: ({
-    active,
-    height,
-    left,
-    rotation,
-    top,
-    width,
-  }: SegmentStyleProps) => ({
-    backgroundColor: active ? theme.colors.primary : theme.colors.primaryMuted,
-    borderRadius: theme.borderRadius.pill,
-    height,
-    left,
+  ring: {
     position: 'absolute',
-    top,
-    transform: [{ rotate: rotation }],
-    width,
-  }),
-}));
+  },
+});

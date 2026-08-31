@@ -74,21 +74,26 @@ export const DashboardScreen = () => {
   const mutationError = progressMutation.error
     ? ApiError.fromUnknown(progressMutation.error).message
     : null;
-  const toggleGoal = (goal: DashboardGoal) => {
+  const toggleGoal = async (goal: DashboardGoal) => {
     if (progressMutation.isPending) {
-      return;
+      return false;
     }
 
-    if (goal.completed && goal.latestTodayProgressEntryId) {
-      progressMutation.mutate({
-        action: 'undo',
-        goalId: goal.id,
-        progressEntryId: goal.latestTodayProgressEntryId,
-      });
-      return;
-    }
+    try {
+      if (goal.completed && goal.latestTodayProgressEntryId) {
+        await progressMutation.mutateAsync({
+          action: 'undo',
+          goalId: goal.id,
+          progressEntryId: goal.latestTodayProgressEntryId,
+        });
+        return true;
+      }
 
-    progressMutation.mutate({ action: 'add', goalId: goal.id });
+      await progressMutation.mutateAsync({ action: 'add', goalId: goal.id });
+      return true;
+    } catch {
+      return false;
+    }
   };
 
   return (

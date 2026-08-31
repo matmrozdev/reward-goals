@@ -32,7 +32,10 @@
           "backgroundColor": "#FAF8F5",
           "image": "./assets/images/brand/reward-goals-splash.png",
           "imageWidth": 320,
-          "resizeMode": "contain"
+          "resizeMode": "contain",
+          "android": {
+            "imageWidth": 180
+          }
         }
       ]
     ],
