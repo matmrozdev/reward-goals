@@ -52,6 +52,7 @@ hooks/
 providers/
 screens/
 session/
+sheets/
 storage/
 types/
 utils/
@@ -69,6 +70,8 @@ features/goals/
 ├── screens/
 │   ├── GoalsScreen.tsx
 │   └── GoalDetailsScreen.tsx
+├── sheets/
+│   └── GoalFormSheet.tsx
 ├── hooks/
 │   └── useGoals.ts
 ├── api/
@@ -82,7 +85,7 @@ features/goals/
 
 A smaller feature may contain only the categories it uses.
 
-## Routes and screens
+## Routes, screens, and sheets
 
 Keep Expo Router route files in `app/` thin. Delegate screen implementations to
 `features/<feature>/screens/`:
@@ -98,6 +101,16 @@ export default function GoalDetailsRoute() {
 Do not put full screen implementations, business logic, or API logic in route
 files. Treat route default exports as framework boundaries, not as the component
 export convention.
+
+Place feature-owned bottom sheets or modal flows in
+`features/<feature>/sheets/` when they behave like temporary screens: they own a
+substantial interaction, coordinate feature state or mutations, and replace or
+complement route-level navigation. Keep ordinary reusable feature elements in
+`components/`.
+
+Keep the business-independent presentation primitive that renders a modal or
+bottom sheet in `ui/components/`. A feature sheet may compose that primitive,
+but the primitive must not import feature code.
 
 ## Ownership and colocation
 

@@ -5,8 +5,8 @@ import { FlatList, View } from 'react-native';
 
 import { ApiError } from '@/api/errors';
 import { GoalCard } from '@/features/goals/components/GoalCard';
-import { GoalFormSheet } from '@/features/goals/components/GoalFormSheet';
 import { useGoalsQuery } from '@/features/goals/hooks/useGoalsQuery';
+import { GoalFormSheet } from '@/features/goals/sheets/GoalFormSheet';
 import type { Goal } from '@/features/goals/types/goals.types';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';

@@ -17,7 +17,7 @@ import {
   mapDashboardGoal,
   mapDashboardReward,
 } from '@/features/dashboard/utils/map-dashboard-data';
-import { GoalFormSheet } from '@/features/goals/components/GoalFormSheet';
+import { GoalFormSheet } from '@/features/goals/sheets/GoalFormSheet';
 import { useAuth } from '@/providers/AuthProvider';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';

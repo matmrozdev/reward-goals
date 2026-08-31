@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { ApiError } from '@/api/errors';
-import { GoalFormSheet } from '@/features/goals/components/GoalFormSheet';
 import { GoalProgress } from '@/features/goals/components/GoalProgress';
 import { useGoalQuery } from '@/features/goals/hooks/useGoalQuery';
 import {
   type GoalLifecycleAction,
   useGoalLifecycleMutation,
 } from '@/features/goals/hooks/useGoalLifecycleMutation';
+import { GoalFormSheet } from '@/features/goals/sheets/GoalFormSheet';
 import { formatGoalSchedule } from '@/features/goals/utils/format-goal-schedule';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
