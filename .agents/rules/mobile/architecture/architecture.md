@@ -46,10 +46,13 @@ Place each business or domain feature in `features/<feature>/`. Within a
 feature, use these canonical category names when that category exists:
 
 ```text
-components/
-screens/
-hooks/
 api/
+components/
+hooks/
+providers/
+screens/
+session/
+storage/
 types/
 utils/
 ```

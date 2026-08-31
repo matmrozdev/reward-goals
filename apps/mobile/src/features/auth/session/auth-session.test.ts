@@ -1,4 +1,4 @@
-import type { AuthTokens } from './types/auth.types';
+import type { AuthTokens } from '@/features/auth/types/auth.types';
 
 type Deferred<T> = {
   promise: Promise<T>;
@@ -31,7 +31,7 @@ const loadAuthSession = async () => {
   jest.doMock('@/features/auth/api/auth.api', () => ({
     authApi: { logout, refresh },
   }));
-  jest.doMock('@/features/auth/token-storage', () => ({
+  jest.doMock('@/features/auth/storage/token-storage', () => ({
     refreshTokenStorage: { clear, get, set },
   }));
   jest.doMock('@/api/client', () => ({

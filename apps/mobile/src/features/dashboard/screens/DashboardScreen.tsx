@@ -2,7 +2,6 @@ import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 
 import { ApiError } from '@/api/errors';
-import { useAuth } from '@/features/auth/AuthProvider';
 import { DashboardHeader } from '@/features/dashboard/components/DashboardHeader';
 import { GoalsPreviewSection } from '@/features/dashboard/components/GoalsPreviewSection';
 import { RewardsPreviewCard } from '@/features/dashboard/components/RewardsPreviewCard';
@@ -17,6 +16,7 @@ import {
   mapDashboardGoal,
   mapDashboardReward,
 } from '@/features/dashboard/utils/map-dashboard-data';
+import { useAuth } from '@/providers/AuthProvider';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
 import { FloatingActionButton } from '@/ui/components/FloatingActionButton';

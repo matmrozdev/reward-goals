@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 
 import { ApiError } from '@/api/errors';
-import { useAuth } from '@/features/auth/AuthProvider';
+import { useAuth } from '@/providers/AuthProvider';
 import { useLogoutMutation } from '@/features/auth/hooks/useLogoutMutation';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
