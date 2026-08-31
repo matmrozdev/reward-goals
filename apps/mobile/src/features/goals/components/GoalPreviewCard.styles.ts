@@ -25,6 +25,12 @@ export const styles = StyleSheet.create((theme) => ({
     flexDirection: 'row',
     gap: theme.spacing.xs,
   },
+  pressable: {
+    borderRadius: theme.borderRadius.lg,
+  },
+  pressed: {
+    opacity: 0.72,
+  },
   scheduleBadge: {
     alignItems: 'center',
     alignSelf: 'flex-start',
@@ -34,5 +40,6 @@ export const styles = StyleSheet.create((theme) => ({
     gap: theme.spacing.xs,
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: theme.spacing.xs,
+    maxWidth: '100%',
   },
 }));

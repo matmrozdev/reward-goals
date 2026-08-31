@@ -1,33 +1,26 @@
 import type {
-  DashboardAccent,
-  DashboardGoal,
-  DashboardGoalIcon,
   DashboardGoalResponse,
   DashboardReward,
   DashboardRewardResponse,
 } from '@/features/dashboard/types/dashboard.types';
-
-const goalIcons: DashboardGoalIcon[] = [
-  'book-open-page-variant',
-  'shoe-sneaker',
-  'chat-processing',
-  'notebook-outline',
-];
+import type { GoalPreview } from '@/features/goals/types/goal-preview.types';
+import { formatGoalScheduledTime } from '@/features/goals/utils/format-goal-scheduled-time';
+import { getGoalPreviewAppearance } from '@/features/goals/utils/map-goal-preview';
 
 export const mapDashboardGoal = (
   goal: DashboardGoalResponse,
   index: number,
-): DashboardGoal => {
-  const accent: DashboardAccent = index % 3 === 1 ? 'success' : 'primary';
+): GoalPreview => {
+  const { accent, icon } = getGoalPreviewAppearance(index);
   const scheduledTime =
     goal.scheduledTimeMinutes === null
       ? undefined
-      : formatScheduledTime(goal.scheduledTimeMinutes);
+      : formatGoalScheduledTime(goal.scheduledTimeMinutes);
 
   return {
     accent,
     completed: goal.hasProgressToday,
-    icon: goalIcons[index % goalIcons.length],
+    icon,
     id: goal.id,
     latestTodayProgressEntryId: goal.latestTodayProgressEntryId,
     metadata: scheduledTime,
@@ -78,12 +71,3 @@ export const getDashboardGreeting = (hour: number) => {
 
   return 'Good evening';
 };
-
-function formatScheduledTime(minutesFromMidnight: number): string {
-  const hour = Math.floor(minutesFromMidnight / 60);
-  const minute = minutesFromMidnight % 60;
-  const period = hour < 12 ? 'AM' : 'PM';
-  const displayHour = hour % 12 || 12;
-
-  return `${displayHour}:${minute.toString().padStart(2, '0')} ${period}`;
-}

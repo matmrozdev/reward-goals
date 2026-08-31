@@ -9,7 +9,6 @@ import { RewardsPreviewCard } from '@/features/dashboard/components/RewardsPrevi
 import { TodaySummaryCard } from '@/features/dashboard/components/TodaySummaryCard';
 import { useDashboardGoalProgressMutation } from '@/features/dashboard/hooks/useDashboardGoalProgressMutation';
 import { useDashboardQuery } from '@/features/dashboard/hooks/useDashboardQuery';
-import type { DashboardGoal } from '@/features/dashboard/types/dashboard.types';
 import { getDashboardRequest } from '@/features/dashboard/utils/get-dashboard-request';
 import {
   getDashboardGreeting,
@@ -18,6 +17,7 @@ import {
   mapDashboardReward,
 } from '@/features/dashboard/utils/map-dashboard-data';
 import { GoalFormSheet } from '@/features/goals/sheets/GoalFormSheet';
+import type { GoalPreview } from '@/features/goals/types/goal-preview.types';
 import { useAuth } from '@/providers/AuthProvider';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
@@ -77,7 +77,7 @@ export const DashboardScreen = () => {
   const mutationError = progressMutation.error
     ? ApiError.fromUnknown(progressMutation.error).message
     : null;
-  const toggleGoal = async (goal: DashboardGoal) => {
+  const toggleGoal = async (goal: GoalPreview) => {
     if (progressMutation.isPending) {
       return false;
     }

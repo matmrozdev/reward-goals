@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 
-import { GoalPreviewCard } from '@/features/dashboard/components/GoalPreviewCard';
-import type { DashboardGoal } from '@/features/dashboard/types/dashboard.types';
+import { GoalPreviewCard } from '@/features/goals/components/GoalPreviewCard';
+import type { GoalPreview } from '@/features/goals/types/goal-preview.types';
 import { Card } from '@/ui/components/Card';
 import { SectionLinkCard } from '@/ui/components/SectionLinkCard';
 import { Text } from '@/ui/components/Text';
@@ -10,10 +10,10 @@ import { styles } from './GoalsPreviewSection.styles';
 
 type GoalsPreviewSectionProps = {
   errorMessage?: string | null;
-  goals: DashboardGoal[];
+  goals: GoalPreview[];
   isTogglePending?: boolean;
   onSeeAll: () => void;
-  onToggleGoal: (goal: DashboardGoal) => Promise<boolean>;
+  onToggleGoal: (goal: GoalPreview) => Promise<boolean>;
 };
 
 export const GoalsPreviewSection = ({

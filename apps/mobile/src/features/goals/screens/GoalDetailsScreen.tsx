@@ -10,6 +10,7 @@ import {
 } from '@/features/goals/hooks/useGoalLifecycleMutation';
 import { GoalFormSheet } from '@/features/goals/sheets/GoalFormSheet';
 import { formatGoalSchedule } from '@/features/goals/utils/format-goal-schedule';
+import { BackButton } from '@/ui/components/BackButton';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
 import { Loader } from '@/ui/components/Loader';
@@ -123,7 +124,7 @@ export const GoalDetailsScreen = ({
   return (
     <Screen contentContainerStyle={styles.content}>
       <View style={styles.navigationRow}>
-        <Button label="Back" onPress={onBack} size="small" variant="ghost" />
+        <BackButton onPress={onBack} />
         <Button
           label="Reload"
           loading={goalQuery.isRefetching}

@@ -1,9 +1,9 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { useUnistyles } from 'react-native-unistyles';
 
-import { GoalStatusAction } from '@/features/dashboard/components/GoalStatusAction';
-import type { DashboardGoal } from '@/features/dashboard/types/dashboard.types';
+import { GoalStatusAction } from '@/features/goals/components/GoalStatusAction';
+import type { GoalPreview } from '@/features/goals/types/goal-preview.types';
 import { Card } from '@/ui/components/Card';
 import { ProgressBar } from '@/ui/components/ProgressBar';
 import { Text } from '@/ui/components/Text';
@@ -12,21 +12,23 @@ import { styles } from './GoalPreviewCard.styles';
 
 type GoalPreviewCardProps = {
   disabled?: boolean;
-  goal: DashboardGoal;
-  onToggle: (goal: DashboardGoal) => Promise<boolean>;
+  goal: GoalPreview;
+  onPress?: () => void;
+  onToggle?: (goal: GoalPreview) => Promise<boolean>;
 };
 
 export const GoalPreviewCard = ({
   disabled = false,
   goal,
+  onPress,
   onToggle,
 }: GoalPreviewCardProps) => {
   const { theme } = useUnistyles();
   const accentColor =
     goal.accent === 'success' ? theme.colors.success : theme.colors.primary;
-  const handleToggle = () => onToggle(goal);
+  const handleToggle = onToggle ? () => onToggle(goal) : undefined;
 
-  return (
+  const card = (
     <Card padding="medium" style={styles.card} variant="elevated">
       <View style={styles.iconContainer}>
         <MaterialCommunityIcons
@@ -72,18 +74,36 @@ export const GoalPreviewCard = ({
             name="clock-outline"
             size={theme.spacing.lg}
           />
-          <Text tone={goal.accent} variant="caption">
+          <Text numberOfLines={1} tone={goal.accent} variant="caption">
             {goal.scheduleLabel}
           </Text>
         </View>
       </View>
       <GoalStatusAction
         accent={goal.accent}
-        accessibilityLabel={`${goal.completed ? 'Undo completion for' : 'Mark as done'} ${goal.title}`}
+        accessibilityLabel={
+          handleToggle
+            ? `${goal.completed ? 'Undo completion for' : 'Mark as done'} ${goal.title}`
+            : `${goal.title} is ${goal.completed ? 'completed' : 'not completed'}`
+        }
         completed={goal.completed}
         disabled={disabled}
         onPress={handleToggle}
       />
     </Card>
+  );
+
+  return onPress ? (
+    <Pressable
+      accessibilityHint="Opens Goal editing"
+      accessibilityLabel={goal.title}
+      accessibilityRole="button"
+      onPress={onPress}
+      style={({ pressed }) => [styles.pressable, pressed && styles.pressed]}
+    >
+      {card}
+    </Pressable>
+  ) : (
+    card
   );
 };
