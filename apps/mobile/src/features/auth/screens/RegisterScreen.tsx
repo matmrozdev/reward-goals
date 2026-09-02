@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
 import { withUnistyles } from 'react-native-unistyles';
+import { testIds } from '@reward-goals/test-ids';
 
 import { ApiError } from '@/api/errors';
 import { Button } from '@/ui/components/Button';
@@ -53,7 +54,10 @@ export const RegisterScreen = () => {
   });
 
   return (
-    <Screen contentContainerStyle={styles.content}>
+    <Screen
+      contentContainerStyle={styles.content}
+      testID={testIds.auth.register.screen}
+    >
       <View style={styles.hero}>
         <ThemedImage
           accessible={false}
@@ -95,6 +99,7 @@ export const RegisterScreen = () => {
                 onChangeText={onChange}
                 placeholder="Enter your email"
                 returnKeyType="next"
+                testID={testIds.auth.register.emailInput}
                 value={value}
               />
             )}
@@ -114,6 +119,7 @@ export const RegisterScreen = () => {
                 onChangeText={onChange}
                 placeholder="Enter your password"
                 returnKeyType="next"
+                testID={testIds.auth.register.passwordInput}
                 value={value}
               />
             )}
@@ -133,6 +139,7 @@ export const RegisterScreen = () => {
                 onSubmitEditing={submit}
                 placeholder="Confirm your password"
                 returnKeyType="done"
+                testID={testIds.auth.register.confirmPasswordInput}
                 value={value}
               />
             )}
@@ -145,6 +152,7 @@ export const RegisterScreen = () => {
             loading={registerMutation.isPending}
             onPress={submit}
             size="large"
+            testID={testIds.auth.register.submitButton}
           />
         </View>
       </Card>

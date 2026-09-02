@@ -2,6 +2,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Tabs } from 'expo-router';
 import { useMemo } from 'react';
 import { useUnistyles } from 'react-native-unistyles';
+import { testIds } from '@reward-goals/test-ids';
 
 export const AuthenticatedTabs = () => {
   const { theme } = useUnistyles();
@@ -31,6 +32,7 @@ export const AuthenticatedTabs = () => {
             <MaterialCommunityIcons color={color} name="target" size={size} />
           ),
           tabBarLabel: 'Goals',
+          tabBarButtonTestID: testIds.navigation.goalsTab,
           title: 'Goals',
         }}
       />
@@ -46,6 +48,7 @@ export const AuthenticatedTabs = () => {
             />
           ),
           tabBarLabel: 'Account',
+          tabBarButtonTestID: testIds.navigation.accountTab,
           title: 'Account',
         }}
       />

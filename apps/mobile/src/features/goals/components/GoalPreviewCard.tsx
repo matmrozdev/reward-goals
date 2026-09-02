@@ -1,6 +1,7 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Pressable, View } from 'react-native';
 import { useUnistyles } from 'react-native-unistyles';
+import { createScopedTestId, testIds } from '@reward-goals/test-ids';
 
 import { GoalStatusAction } from '@/features/goals/components/GoalStatusAction';
 import type { GoalPreview } from '@/features/goals/types/goal-preview.types';
@@ -29,7 +30,12 @@ export const GoalPreviewCard = ({
   const handleToggle = onToggle ? () => onToggle(goal) : undefined;
 
   const card = (
-    <Card padding="medium" style={styles.card} variant="elevated">
+    <Card
+      padding="medium"
+      style={styles.card}
+      testID={createScopedTestId(testIds.goals.previewCard, goal.id)}
+      variant="elevated"
+    >
       <View style={styles.iconContainer}>
         <MaterialCommunityIcons
           color={accentColor}
@@ -89,6 +95,7 @@ export const GoalPreviewCard = ({
         completed={goal.completed}
         disabled={disabled}
         onPress={handleToggle}
+        testID={createScopedTestId(testIds.goals.statusAction, goal.id)}
       />
     </Card>
   );

@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { View } from 'react-native';
+import { testIds } from '@reward-goals/test-ids';
 
 import { GoalFormOption } from '@/features/goals/components/GoalFormOption';
 import type { Goal, Weekday } from '@/features/goals/types/goals.types';
@@ -75,6 +76,7 @@ export const GoalForm = ({
             maxLength={120}
             onBlur={onBlur}
             onChangeText={onChange}
+            testID={testIds.goals.form.titleInput}
             value={value}
           />
         )}
@@ -141,6 +143,7 @@ export const GoalForm = ({
               label="Target"
               onBlur={onBlur}
               onChangeText={onChange}
+              testID={testIds.goals.form.targetInput}
               value={value}
             />
           )}
@@ -200,6 +203,7 @@ export const GoalForm = ({
               onPress={() => onChange(!value)}
               role="switch"
               selected={value}
+              testID={testIds.goals.form.rewardToggle}
             />
           )}
         />
@@ -216,6 +220,7 @@ export const GoalForm = ({
                   maxLength={120}
                   onBlur={onBlur}
                   onChangeText={onChange}
+                  testID={testIds.goals.form.rewardTitleInput}
                   value={value}
                 />
               )}
@@ -231,6 +236,7 @@ export const GoalForm = ({
                   label="Required progress"
                   onBlur={onBlur}
                   onChangeText={onChange}
+                  testID={testIds.goals.form.rewardRequiredProgressInput}
                   value={value}
                 />
               )}
@@ -240,7 +246,12 @@ export const GoalForm = ({
       </View>
 
       <View style={styles.actions}>
-        <Button label={submitLabel} loading={isSubmitting} onPress={submit} />
+        <Button
+          label={submitLabel}
+          loading={isSubmitting}
+          onPress={submit}
+          testID={testIds.goals.form.submitButton}
+        />
         <Button
           disabled={isSubmitting}
           label="Cancel"

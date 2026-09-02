@@ -1,0 +1,24 @@
+appId: ${APP_ID}
+name: Record progress for an active Goal
+tags:
+  - goals
+  - critical
+---
+- launchApp:
+    clearState: true
+- runScript:
+    file: ../../scripts/prepare-auth-user.js
+    env:
+      CREATE_VIA_API: 'true'
+- runScript:
+    file: ../../scripts/prepare-goal.js
+- runFlow:
+    file: ../../subflows/login.yaml
+    env:
+      EMAIL: ${output.auth.email}
+      PASSWORD: ${output.auth.password}
+- assertVisible:
+    id: ${TEST_ID_GOALS_PREVIEW_CARD}.${output.goal.id}
+- tapOn:
+    id: ${TEST_ID_GOALS_STATUS_ACTION}.${output.goal.id}
+- assertVisible: 1 of 1 done

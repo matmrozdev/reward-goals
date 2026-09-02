@@ -1,4 +1,5 @@
 import { ScrollView } from 'react-native';
+import { testIds } from '@reward-goals/test-ids';
 
 import { ApiError } from '@/api/errors';
 import { GoalForm } from '@/features/goals/components/GoalForm';
@@ -55,6 +56,7 @@ export const GoalFormSheet = ({
           contentInsetAdjustmentBehavior="automatic"
           keyboardShouldPersistTaps="handled"
           style={styles.scrollView}
+          testID={testIds.goals.form.sheet}
         >
           <GoalForm
             goal={goal}

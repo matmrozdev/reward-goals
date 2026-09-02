@@ -1,0 +1,8 @@
+appId: com.anonymous.mobile
+flows:
+  - 'flows/**/*.yaml'
+testOutputDir: artifacts
+env:
+  APP_ID: com.anonymous.mobile
+  API_URL: http://localhost:3000
+  E2E_PASSWORD: MaestroE2EPassword123

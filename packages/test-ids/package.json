@@ -1,0 +1,9 @@
+{
+  "name": "@reward-goals/test-ids",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/test-ids.ts",
+    "./test-ids.json": "./src/test-ids.json"
+  }
+}

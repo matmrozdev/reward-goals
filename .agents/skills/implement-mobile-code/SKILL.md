@@ -1,6 +1,6 @@
 ---
 name: implement-mobile-code
-description: Implement or refactor Reward Goals mobile code by selecting and applying the repository's focused architecture, component, styling, utility-testing, and integration rules. Use for source changes under apps/mobile, including Expo Router routes, feature screens and components, reusable UI, hooks, API modules, storage, services, configuration, providers, utilities, tests, themes, and animations.
+description: Implement or refactor Reward Goals mobile and device E2E code by selecting and applying the repository's focused architecture, component, styling, utility-testing, Maestro, and integration rules. Use for source changes under apps/mobile or apps/e2e, including Expo Router routes, feature screens and components, reusable UI, hooks, API modules, storage, services, configuration, providers, utilities, tests, test IDs, Maestro flows, themes, and animations.
 ---
 
 # Implement mobile code
@@ -20,6 +20,8 @@ description: Implement or refactor Reward Goals mobile code by selecting and app
      image assets, or animations.
    - Read `../../rules/mobile/testing/utils-and-testing.md` for helpers,
      utilities, or tests.
+   - Read `../../rules/mobile/testing/maestro-e2e.md` for Maestro flows,
+     device-level E2E setup, shared test IDs, or critical mobile journeys.
    - Read `../../rules/mobile/integrations/integrations.md` for API transport,
      feature requests, storage, external SDKs, configuration, or providers.
 5. Implement the change according to the selected rules in the narrowest owner.

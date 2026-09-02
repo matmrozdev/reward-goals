@@ -1,0 +1,30 @@
+appId: ${APP_ID}
+name: Register a new account
+tags:
+  - auth
+  - critical
+---
+- launchApp:
+    clearState: true
+- runScript:
+    file: ../../scripts/prepare-auth-user.js
+    env:
+      CREATE_VIA_API: 'false'
+- tapOn:
+    id: ${TEST_ID_AUTH_LOGIN_CREATE_ACCOUNT_BUTTON}
+- assertVisible:
+    id: ${TEST_ID_AUTH_REGISTER_SCREEN}
+- tapOn:
+    id: ${TEST_ID_AUTH_REGISTER_EMAIL_INPUT}
+- inputText: ${output.auth.email}
+- tapOn:
+    id: ${TEST_ID_AUTH_REGISTER_PASSWORD_INPUT}
+- inputText: ${output.auth.password}
+- tapOn:
+    id: ${TEST_ID_AUTH_REGISTER_CONFIRM_PASSWORD_INPUT}
+- inputText: ${output.auth.password}
+- hideKeyboard
+- tapOn:
+    id: ${TEST_ID_AUTH_REGISTER_SUBMIT_BUTTON}
+- assertVisible:
+    id: ${TEST_ID_AUTH_LOGIN_SUCCESS_MESSAGE}

@@ -3,6 +3,7 @@
   "main": "index.ts",
   "version": "1.0.0",
   "dependencies": {
+    "@reward-goals/test-ids": "workspace:*",
     "@expo/ui": "~57.0.10",
     "@expo/vector-icons": "^15.1.1",
     "@hookform/resolvers": "^5.9.1",
