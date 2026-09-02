@@ -1,0 +1,46 @@
+{
+  "account": {
+    "email": "account.email",
+    "screen": "account.screen",
+    "signOutButton": "account.sign-out-button"
+  },
+  "auth": {
+    "login": {
+      "createAccountButton": "auth.login.create-account-button",
+      "emailInput": "auth.login.email-input",
+      "passwordInput": "auth.login.password-input",
+      "screen": "auth.login.screen",
+      "submitButton": "auth.login.submit-button",
+      "successMessage": "auth.login.success-message"
+    },
+    "register": {
+      "confirmPasswordInput": "auth.register.confirm-password-input",
+      "emailInput": "auth.register.email-input",
+      "passwordInput": "auth.register.password-input",
+      "screen": "auth.register.screen",
+      "submitButton": "auth.register.submit-button"
+    }
+  },
+  "dashboard": {
+    "addGoalButton": "dashboard.add-goal-button",
+    "screen": "dashboard.screen",
+    "todayProgress": "dashboard.today-progress"
+  },
+  "goals": {
+    "form": {
+      "rewardRequiredProgressInput": "goals.form.reward-required-progress-input",
+      "rewardTitleInput": "goals.form.reward-title-input",
+      "rewardToggle": "goals.form.reward-toggle",
+      "sheet": "goals.form.sheet",
+      "submitButton": "goals.form.submit-button",
+      "targetInput": "goals.form.target-input",
+      "titleInput": "goals.form.title-input"
+    },
+    "previewCard": "goals.preview-card",
+    "statusAction": "goals.status-action"
+  },
+  "navigation": {
+    "accountTab": "navigation.account-tab",
+    "goalsTab": "navigation.goals-tab"
+  }
+}

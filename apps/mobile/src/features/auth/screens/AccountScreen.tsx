@@ -1,4 +1,5 @@
 import { View } from 'react-native';
+import { testIds } from '@reward-goals/test-ids';
 
 import { ApiError } from '@/api/errors';
 import { useAuth } from '@/providers/AuthProvider';
@@ -21,6 +22,7 @@ export const AccountScreen = () => {
     <Screen
       contentContainerStyle={styles.content}
       safeAreaEdges={['top', 'right', 'left']}
+      testID={testIds.account.screen}
     >
       <View style={styles.header}>
         <Text variant="heading">Account</Text>
@@ -30,7 +32,9 @@ export const AccountScreen = () => {
         <View style={styles.header}>
           <Text variant="label">Signed in as</Text>
           {isUserLoading ? <Text>Loading your account…</Text> : null}
-          {user ? <Text>{user.email}</Text> : null}
+          {user ? (
+            <Text testID={testIds.account.email}>{user.email}</Text>
+          ) : null}
           {userError ? (
             <>
               <Text accessibilityRole="alert" tone="danger">
@@ -53,6 +57,7 @@ export const AccountScreen = () => {
           label="Sign out"
           loading={logoutMutation.isPending}
           onPress={() => logoutMutation.mutate()}
+          testID={testIds.account.signOutButton}
           variant="secondary"
         />
       </Card>

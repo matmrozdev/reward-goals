@@ -41,6 +41,7 @@ and the [project Wiki](https://github.com/matmrozdev/reward-goals/wiki).
 
 - [API setup and commands](apps/api/README.md)
 - [Mobile setup and commands](apps/mobile/README.md)
+- [Mobile E2E setup and commands](apps/e2e/README.md)
 
 ## Running locally
 
@@ -61,8 +62,10 @@ Then complete the setup for both applications:
 reward-goals/
 ├── apps/
 │   ├── api/
+│   ├── e2e/
 │   └── mobile/
 ├── packages/
+│   └── test-ids/
 ├── docker-compose.yml
 └── pnpm-workspace.yaml
 ```

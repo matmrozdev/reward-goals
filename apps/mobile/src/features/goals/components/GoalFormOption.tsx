@@ -11,6 +11,7 @@ type GoalFormOptionProps = {
   onPress: () => void;
   role?: Extract<AccessibilityRole, 'checkbox' | 'radio' | 'switch'>;
   selected: boolean;
+  testID?: string;
 };
 
 export const GoalFormOption = ({
@@ -19,6 +20,7 @@ export const GoalFormOption = ({
   onPress,
   role = 'checkbox',
   selected,
+  testID,
 }: GoalFormOptionProps) => (
   <Pressable
     accessibilityRole={role}
@@ -35,6 +37,7 @@ export const GoalFormOption = ({
       pressed && !disabled && styles.pressed,
       disabled && styles.disabled,
     ]}
+    testID={testID}
   >
     <Text tone={selected ? 'primary' : 'default'} variant="label">
       {label}

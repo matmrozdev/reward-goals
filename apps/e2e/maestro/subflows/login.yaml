@@ -1,0 +1,9 @@
+- tapOn:
+    id: ${TEST_ID_AUTH_LOGIN_EMAIL_INPUT}
+- inputText: ${EMAIL}
+- tapOn:
+    id: ${TEST_ID_AUTH_LOGIN_PASSWORD_INPUT}
+- inputText: ${PASSWORD}
+- hideKeyboard
+- tapOn:
+    id: ${TEST_ID_AUTH_LOGIN_SUBMIT_BUTTON}

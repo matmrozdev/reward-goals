@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import { useUnistyles } from 'react-native-unistyles';
+import { testIds } from '@reward-goals/test-ids';
 
 export const AuthenticatedTabs = () => {
   const { theme } = useUnistyles();
@@ -22,7 +23,7 @@ export const AuthenticatedTabs = () => {
       <NativeTabs.Trigger
         accessibilityLabel="Goals tab"
         name="(goals)"
-        testID="goals-tab"
+        testID={testIds.navigation.goalsTab}
       >
         <NativeTabs.Trigger.Icon sf="target" md="target" />
         <NativeTabs.Trigger.Label>Goals</NativeTabs.Trigger.Label>
@@ -30,7 +31,7 @@ export const AuthenticatedTabs = () => {
       <NativeTabs.Trigger
         accessibilityLabel="Account tab"
         name="account"
-        testID="account-tab"
+        testID={testIds.navigation.accountTab}
       >
         <NativeTabs.Trigger.Icon sf="person.crop.circle" md="account_circle" />
         <NativeTabs.Trigger.Label>Account</NativeTabs.Trigger.Label>

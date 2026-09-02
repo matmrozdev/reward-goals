@@ -1,0 +1,27 @@
+appId: ${APP_ID}
+name: Sign out of an authenticated session
+tags:
+  - auth
+  - critical
+---
+- launchApp:
+    clearState: true
+- runScript:
+    file: ../../scripts/prepare-auth-user.js
+    env:
+      CREATE_VIA_API: 'true'
+- runFlow:
+    file: ../../subflows/login.yaml
+    env:
+      EMAIL: ${output.auth.email}
+      PASSWORD: ${output.auth.password}
+- assertVisible:
+    id: ${TEST_ID_DASHBOARD_SCREEN}
+- tapOn:
+    id: ${TEST_ID_NAVIGATION_ACCOUNT_TAB}
+- assertVisible:
+    id: ${TEST_ID_ACCOUNT_SCREEN}
+- tapOn:
+    id: ${TEST_ID_ACCOUNT_SIGN_OUT_BUTTON}
+- assertVisible:
+    id: ${TEST_ID_AUTH_LOGIN_SCREEN}

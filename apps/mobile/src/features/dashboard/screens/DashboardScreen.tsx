@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
+import { testIds } from '@reward-goals/test-ids';
 
 import { ApiError } from '@/api/errors';
 import { DashboardHeader } from '@/features/dashboard/components/DashboardHeader';
@@ -104,6 +105,7 @@ export const DashboardScreen = () => {
       <Screen
         contentContainerStyle={styles.content}
         safeAreaEdges={['top', 'right', 'left']}
+        testID={testIds.dashboard.screen}
       >
         <DashboardHeader
           avatarLabel={identity.avatarLabel}
@@ -128,6 +130,7 @@ export const DashboardScreen = () => {
           accessibilityHint="Opens the create Goal form"
           accessibilityLabel="Add Goal"
           onPress={() => setIsGoalFormVisible(true)}
+          testID={testIds.dashboard.addGoalButton}
         />
       </View>
       <GoalFormSheet

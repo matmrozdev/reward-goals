@@ -29,6 +29,7 @@ type GoalStatusActionProps = {
   completed: boolean;
   disabled?: boolean;
   onPress?: () => Promise<boolean>;
+  testID?: string;
 };
 
 export const GoalStatusAction = ({
@@ -37,6 +38,7 @@ export const GoalStatusAction = ({
   completed,
   disabled = false,
   onPress,
+  testID,
 }: GoalStatusActionProps) => {
   const { theme } = useUnistyles();
   const [optimisticCompleted, setOptimisticCompleted] = useState<
@@ -229,6 +231,7 @@ export const GoalStatusAction = ({
         accessibilityLabel={accessibilityLabel}
         accessibilityRole="image"
         style={styles.action}
+        testID={testID}
       >
         {content}
       </View>
@@ -249,6 +252,7 @@ export const GoalStatusAction = ({
         styles.action,
         disabled && !isAnimationPending && styles.disabled,
       ]}
+      testID={testID}
     >
       {content}
     </Pressable>

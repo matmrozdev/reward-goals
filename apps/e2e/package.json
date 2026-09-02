@@ -1,0 +1,17 @@
+{
+  "name": "e2e",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/run-maestro.mjs",
+    "test:auth": "node scripts/run-maestro.mjs --include-tags=auth",
+    "test:goals": "node scripts/run-maestro.mjs --include-tags=goals",
+    "test:smoke": "node scripts/run-maestro.mjs --include-tags=smoke",
+    "validate": "node scripts/validate-maestro-workspace.mjs"
+  },
+  "devDependencies": {
+    "@reward-goals/test-ids": "workspace:*",
+    "yaml": "^2.8.1"
+  }
+}

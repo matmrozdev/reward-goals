@@ -1,6 +1,7 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { View } from 'react-native';
 import { useUnistyles } from 'react-native-unistyles';
+import { testIds } from '@reward-goals/test-ids';
 
 import { Card } from '@/ui/components/Card';
 import { CircularProgress } from '@/ui/components/CircularProgress';
@@ -23,7 +24,12 @@ export const TodaySummaryCard = ({
     <Card padding="large" style={styles.card} variant="elevated">
       <View style={styles.copy}>
         <Text variant="title">Today</Text>
-        <View style={styles.countRow}>
+        <View
+          accessibilityLabel={`${completedCount} of ${totalCount} done`}
+          accessible
+          style={styles.countRow}
+          testID={testIds.dashboard.todayProgress}
+        >
           <Text tone="primary" variant="title">
             {completedCount}
           </Text>

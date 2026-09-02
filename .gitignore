@@ -13,6 +13,7 @@ apps/api/src/generated/prisma/
 
 # Logs
 *.log
+apps/e2e/maestro/artifacts/
 
 # OS
 .DS_Store

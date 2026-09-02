@@ -6,6 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
 import { useUnistyles, withUnistyles } from 'react-native-unistyles';
 import { z } from 'zod';
+import { testIds } from '@reward-goals/test-ids';
 
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
@@ -47,7 +48,10 @@ export const LoginScreen = () => {
   const submit = handleSubmit((values) => loginMutation.login(values));
 
   return (
-    <Screen contentContainerStyle={styles.content}>
+    <Screen
+      contentContainerStyle={styles.content}
+      testID={testIds.auth.login.screen}
+    >
       <View style={styles.hero}>
         {isDarkTheme ? null : (
           <>
@@ -95,6 +99,7 @@ export const LoginScreen = () => {
             <Text
               accessibilityRole="alert"
               style={styles.successText}
+              testID={testIds.auth.login.successMessage}
               tone="success"
             >
               Account created. Sign in with your new credentials.
@@ -121,6 +126,7 @@ export const LoginScreen = () => {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 returnKeyType="next"
+                testID={testIds.auth.login.emailInput}
                 value={value}
               />
             )}
@@ -139,6 +145,7 @@ export const LoginScreen = () => {
                 onSubmitEditing={submit}
                 returnKeyType="done"
                 secureTextEntry
+                testID={testIds.auth.login.passwordInput}
                 value={value}
               />
             )}
@@ -151,6 +158,7 @@ export const LoginScreen = () => {
             loading={loginMutation.isPending}
             onPress={submit}
             size="large"
+            testID={testIds.auth.login.submitButton}
           />
           <View style={styles.registerPrompt}>
             <Text tone="muted">New here?</Text>
@@ -160,6 +168,7 @@ export const LoginScreen = () => {
               onPress={() => router.push('/register' as Href)}
               size="small"
               style={styles.registerButton}
+              testID={testIds.auth.login.createAccountButton}
               variant="ghost"
             />
           </View>
